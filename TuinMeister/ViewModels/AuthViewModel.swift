@@ -1,5 +1,6 @@
 import Foundation
 import Combine
+import FirebaseAuth
 
 final class AuthViewModel: ObservableObject {
   @Published var firstName = ""
@@ -9,5 +10,28 @@ final class AuthViewModel: ObservableObject {
   @Published var confirmPassword = ""
   @Published var isLogin = true
   @Published var errorMessage: String?
-
+    
+    func submit() {
+      errorMessage = nil
+      if isLogin {
+        AuthService.shared.signIn(email: email, password: password) { error in
+          if let e = error {
+            DispatchQueue.main.async { self.errorMessage = e.localizedDescription }
+          }
+        }
+      } else {
+        // Validate inputs before sign-up
+        guard !firstName.isEmpty else { errorMessage = "Vul je voornaam in."; return }
+        guard !lastName.isEmpty else { errorMessage = "Vul je achternaam in."; return }
+        guard !email.isEmpty else { errorMessage = "Vul je e‑mail in."; return }
+        guard !password.isEmpty, password == confirmPassword else {
+          errorMessage = "Wachtwoorden komen niet overeen."; return
+        }
+        AuthService.shared.signUp(email: email, password: password) { error in
+          if let e = error {
+            DispatchQueue.main.async { self.errorMessage = e.localizedDescription }
+          }
+        }
+      }
+    }
 }
