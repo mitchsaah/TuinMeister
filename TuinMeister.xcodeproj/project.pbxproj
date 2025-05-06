@@ -22,9 +22,22 @@
 		131884362DC7969E00762469 /* TuinMeister.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TuinMeister.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		13CAB00D2DCA58EB00EB39CC /* Exceptions for "TuinMeister" folder in "TuinMeister" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 131884352DC7969E00762469 /* TuinMeister */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		131884382DC7969E00762469 /* TuinMeister */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				13CAB00D2DCA58EB00EB39CC /* Exceptions for "TuinMeister" folder in "TuinMeister" target */,
+			);
 			path = TuinMeister;
 			sourceTree = "<group>";
 		};
@@ -292,6 +305,7 @@
 				DEVELOPMENT_TEAM = G26THLDNND;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = TuinMeister/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -320,6 +334,7 @@
 				DEVELOPMENT_TEAM = G26THLDNND;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = TuinMeister/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
