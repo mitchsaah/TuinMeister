@@ -18,6 +18,8 @@ struct TuinMeisterApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
+                .environmentObject(AppState.shared)
+                .font(.custom("Poppins-Regular", size: 16))
         }
     }
 }
