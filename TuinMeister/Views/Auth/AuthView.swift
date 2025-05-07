@@ -54,7 +54,7 @@ struct AuthView: View {
                             .disableAutocorrection(true)
                             .padding(12)
                     }
-                    .background(Color.white)
+                    .background(Color.clear)
                     .cornerRadius(8)
                     .overlay(
                         RoundedRectangle(cornerRadius: 8)
@@ -73,7 +73,7 @@ struct AuthView: View {
                             .foregroundColor(.black)
                             .padding(12)
                     }
-                    .background(Color.white)
+                    .background(Color.clear)
                     .cornerRadius(8)
                     .overlay(
                         RoundedRectangle(cornerRadius: 8)
@@ -93,7 +93,7 @@ struct AuthView: View {
                                 .foregroundColor(.black)
                                 .padding(12)
                         }
-                        .background(Color.white)
+                        .background(Color.clear)
                         .cornerRadius(8)
                         .overlay(
                             RoundedRectangle(cornerRadius: 8)
@@ -139,6 +139,34 @@ struct AuthView: View {
                     }
                     .padding(.horizontal)
                     .padding(.top, 40)
+                    
+                    // Google and Facebook buttons
+                    HStack(spacing: 16) {
+                        // Google button
+                      Button(action: vm.googleSignIn) {
+                        Image("google-icon")
+                          .resizable()
+                          .scaledToFit()
+                          .frame(width: 24, height: 24)
+                      }
+                      .frame(maxWidth: .infinity)
+                      .frame(height: 54)
+                      .overlay(
+                        RoundedRectangle(cornerRadius: 8)
+                          .stroke(Color.gray.opacity(0.5), lineWidth: 1)
+                      )
+
+                      // Facebook button
+                      RoundedRectangle(cornerRadius: 8)
+                        .fill(Color.clear)
+                        .frame(maxWidth: .infinity)
+                        .frame(height: 54)
+                        .overlay(
+                          RoundedRectangle(cornerRadius: 8)
+                            .stroke(Color.gray.opacity(0.5), lineWidth: 1)
+                        )
+                    }
+                    .padding(.horizontal)
 
                     Spacer()
 
