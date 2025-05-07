@@ -1,5 +1,6 @@
 import Foundation
 import FirebaseAuth
+import GoogleSignIn
 
 final class AuthService {
   static let shared = AuthService()
@@ -18,6 +19,19 @@ extension AuthService {
       completion(error)
     }
   }
+    
+    // Google sign-in
+    func signInWithGoogle(idToken: String,
+                          accessToken: String,
+                          completion: @escaping (Error?) -> Void) {
+        let credential = GoogleAuthProvider.credential(
+            withIDToken: idToken,
+            accessToken: accessToken
+        )
+        Auth.auth().signIn(with: credential) { _, error in
+            completion(error)
+        }
+    }
   
   func signOut() {
     try? Auth.auth().signOut()
