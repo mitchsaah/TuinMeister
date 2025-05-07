@@ -1,6 +1,9 @@
 import Foundation
 import Combine
 import FirebaseAuth
+import FirebaseCore
+import GoogleSignIn
+import UIKit
 
 final class AuthViewModel: ObservableObject {
   @Published var firstName = ""
@@ -33,5 +36,12 @@ final class AuthViewModel: ObservableObject {
           }
         }
       }
+    }
+    
+    // Google sign-in
+    func googleSignIn() {
+        guard let clientID = FirebaseApp.app()?.options.clientID else { return }
+        GIDSignIn.sharedInstance.configuration = GIDConfiguration(clientID: clientID)
+        
     }
 }
