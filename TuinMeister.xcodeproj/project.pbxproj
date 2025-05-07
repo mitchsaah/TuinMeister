@@ -16,6 +16,7 @@
 		131884542DC799A700762469 /* GoogleSignInSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 131884532DC799A700762469 /* GoogleSignInSwift */; };
 		131884572DC79B2600762469 /* FacebookCore in Frameworks */ = {isa = PBXBuildFile; productRef = 131884562DC79B2600762469 /* FacebookCore */; };
 		131884592DC79B2600762469 /* FacebookLogin in Frameworks */ = {isa = PBXBuildFile; productRef = 131884582DC79B2600762469 /* FacebookLogin */; };
+		13BC71892DCB7094001BD972 /* FirebaseCore in Frameworks */ = {isa = PBXBuildFile; productRef = 13BC71882DCB7094001BD972 /* FirebaseCore */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -54,6 +55,7 @@
 				1318844C2DC7996000762469 /* FirebaseFirestore in Frameworks */,
 				131884462DC7996000762469 /* FirebaseAnalytics in Frameworks */,
 				131884592DC79B2600762469 /* FacebookLogin in Frameworks */,
+				13BC71892DCB7094001BD972 /* FirebaseCore in Frameworks */,
 				131884482DC7996000762469 /* FirebaseAuth in Frameworks */,
 				131884522DC799A700762469 /* GoogleSignIn in Frameworks */,
 				131884572DC79B2600762469 /* FacebookCore in Frameworks */,
@@ -108,6 +110,7 @@
 				131884532DC799A700762469 /* GoogleSignInSwift */,
 				131884562DC79B2600762469 /* FacebookCore */,
 				131884582DC79B2600762469 /* FacebookLogin */,
+				13BC71882DCB7094001BD972 /* FirebaseCore */,
 			);
 			productName = TuinMeister;
 			productReference = 131884362DC7969E00762469 /* TuinMeister.app */;
@@ -456,6 +459,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 131884552DC79B2600762469 /* XCRemoteSwiftPackageReference "facebook-ios-sdk" */;
 			productName = FacebookLogin;
+		};
+		13BC71882DCB7094001BD972 /* FirebaseCore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 131884442DC7996000762469 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseCore;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
