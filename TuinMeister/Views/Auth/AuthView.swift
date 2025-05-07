@@ -120,6 +120,25 @@ struct AuthView: View {
                             .cornerRadius(8)
                     }
                     .padding(.horizontal)
+                    
+                    HStack(alignment: .center) {
+                        Rectangle()
+                            .fill(Color.black)
+                            .frame(height: 1)
+                        
+                        // Other options text
+                        Text("Of ga verder met")
+                            .font(.footnote)
+                            .foregroundColor(.black)
+                            .padding(.horizontal, 8)
+                            .fixedSize()
+                        
+                        Rectangle()
+                            .fill(Color.black)
+                            .frame(height: 1)
+                    }
+                    .padding(.horizontal)
+                    .padding(.top, 40)
 
                     Spacer()
 
