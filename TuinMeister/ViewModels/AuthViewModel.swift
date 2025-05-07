@@ -47,5 +47,12 @@ final class AuthViewModel: ObservableObject {
             let scene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
             let rootVC = scene.windows.first?.rootViewController
         else { return }
+        
+        GIDSignIn.sharedInstance.signIn(withPresenting: rootVC) { result, error in
+            if let error = error {
+                DispatchQueue.main.async { self.errorMessage = error.localizedDescription }
+                return
+            }
+        }
     }
 }
