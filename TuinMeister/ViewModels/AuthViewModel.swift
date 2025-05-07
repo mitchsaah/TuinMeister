@@ -53,6 +53,28 @@ final class AuthViewModel: ObservableObject {
                 DispatchQueue.main.async { self.errorMessage = error.localizedDescription }
                 return
             }
+            
+            guard let user = result?.user else {
+                DispatchQueue.main.async { self.errorMessage = "Kon Google‑gebruiker niet laden." }
+                return
+            }
+            
+            guard let idTokenObj = user.idToken else {
+                DispatchQueue.main.async { self.errorMessage = "Kon idToken niet ophalen." }
+                return
+            }
+            let idToken = idTokenObj.tokenString
+
+            let accessToken = user.accessToken.tokenString
+
+            AuthService.shared.signInWithGoogle(
+                idToken:     idToken,
+                accessToken: accessToken
+            ) { err in
+                if let err = err {
+                    DispatchQueue.main.async { self.errorMessage = err.localizedDescription }
+                }
+            }
         }
     }
 }
