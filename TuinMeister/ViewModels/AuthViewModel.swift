@@ -43,5 +43,9 @@ final class AuthViewModel: ObservableObject {
         guard let clientID = FirebaseApp.app()?.options.clientID else { return }
         GIDSignIn.sharedInstance.configuration = GIDConfiguration(clientID: clientID)
         
+        guard
+            let scene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+            let rootVC = scene.windows.first?.rootViewController
+        else { return }
     }
 }
