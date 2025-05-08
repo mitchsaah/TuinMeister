@@ -22,6 +22,16 @@ class AppDelegate: NSObject, UIApplicationDelegate {
         open url: URL,
         options: [UIApplication.OpenURLOptionsKey : Any] = [:]
     ) -> Bool {
+        // Facebook SDK handler
+        let handledByFB = ApplicationDelegate.shared.application(
+            app,
+            open: url,
+            options: options
+        )
+        if handledByFB {
+            return true
+        }
+        // If not handled by Facebook, it gets passed to Google sign-in
         return GIDSignIn.sharedInstance.handle(url)
     }
 }
