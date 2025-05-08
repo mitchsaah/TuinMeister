@@ -3,6 +3,7 @@ import Combine
 import FirebaseAuth
 import FirebaseCore
 import GoogleSignIn
+import FacebookLogin
 import UIKit
 
 final class AuthViewModel: ObservableObject {
@@ -76,5 +77,24 @@ final class AuthViewModel: ObservableObject {
                 }
             }
         }
+    }
+    
+    func facebookSignIn() {
+      let manager = LoginManager()
+      manager.logIn(permissions: ["email", "public_profile"], from: nil) { result, error in
+        if let error = error {
+          DispatchQueue.main.async { self.errorMessage = error.localizedDescription }
+          return
+        }
+        guard let tokenString = AccessToken.current?.tokenString else {
+          DispatchQueue.main.async { self.errorMessage = "Geen Facebook‑token beschikbaar." }
+          return
+        }
+        AuthService.shared.signInWithFacebook(accessToken: tokenString) { err in
+          if let err = err {
+            DispatchQueue.main.async { self.errorMessage = err.localizedDescription }
+          }
+        }
+      }
     }
 }
