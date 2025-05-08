@@ -1,12 +1,18 @@
 import SwiftUI
 import FirebaseCore
 import GoogleSignIn
+import FBSDKCoreKit
 
 class AppDelegate: NSObject, UIApplicationDelegate {
   func application(_ application: UIApplication,
                    didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
     FirebaseApp.configure()
-
+    
+    // Initializes Facebook SDK
+    ApplicationDelegate.shared.application(
+        application,
+        didFinishLaunchingWithOptions: launchOptions
+    )
     return true
   }
     
