@@ -32,6 +32,17 @@ extension AuthService {
             completion(error)
         }
     }
+    
+    // Facebook sign-in
+    func signInWithFacebook(
+        accessToken: String,
+        completion: @escaping (Error?) -> Void
+      ) {
+        let credential = FacebookAuthProvider.credential(withAccessToken: accessToken)
+        Auth.auth().signIn(with: credential) { _, error in
+          completion(error)
+        }
+      }
   
   func signOut() {
     try? Auth.auth().signOut()
