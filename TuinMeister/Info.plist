@@ -25,5 +25,36 @@
                </array>
            </dict>
        </array>
+       
+       <key>FacebookAppID</key>
+       <string>677798641831788</string>
+       <key>FacebookDisplayName</key>
+       <string>TuinMeister</string>
+       <key>LSApplicationQueriesSchemes</key>
+       <array>
+           <string>fbapi</string>
+           <string>fbapi20130214</string>
+           <string>fbapi20130410</string>
+           <string>fbapi20130702</string>
+           <string>fbapi20131010</string>
+           <string>fbapi20131219</string>
+           <string>fbapi20230214</string>
+           <string>fbapi20230410</string>
+           <string>fbapi20230702</string>
+           <string>fb-messenger-share-api</string>
+           <string>fbauth2</string>
+           <string>fb-share-extension</string>
+       </array>
+       <key>CFBundleURLTypes</key>
+       <array>
+         <dict>
+           <key>CFBundleTypeRole</key>
+           <string>Editor</string>
+           <key>CFBundleURLSchemes</key>
+           <array>
+             <string>fb677798641831788</string>
+           </array>
+         </dict>
+       </array>
 </dict>
 </plist>
