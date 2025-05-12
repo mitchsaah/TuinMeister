@@ -157,8 +157,12 @@ struct AuthView: View {
                       )
 
                       // Facebook button
-                      RoundedRectangle(cornerRadius: 8)
-                        .fill(Color.clear)
+                        Button(action: vm.facebookSignIn) {
+                            Image("facebook-icon")
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: 24, height: 24)
+                        }
                         .frame(maxWidth: .infinity)
                         .frame(height: 54)
                         .overlay(
