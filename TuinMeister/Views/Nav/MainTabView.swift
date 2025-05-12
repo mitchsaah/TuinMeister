@@ -11,7 +11,20 @@ struct MainTabView: View {
             appearance.backgroundColor = UIColor {trait in
                 trait.userInterfaceStyle == .dark ? .black : .white
             }
-           }
+        
+        let normal = appearance.stackedLayoutAppearance.normal
+        normal.iconColor = .label
+        normal.titleTextAttributes = [.foregroundColor: UIColor.label]
+    
+        let selected = appearance.stackedLayoutAppearance.selected
+        selected.iconColor = UIColor(accentGreen)
+        selected.titleTextAttributes = [.foregroundColor: UIColor(accentGreen)]
+
+        UITabBar.appearance().standardAppearance = appearance
+        if #available(iOS 15.0, *) {
+            UITabBar.appearance().scrollEdgeAppearance = appearance
+        }
+    }
     
     var body: some View {
         TabView {
