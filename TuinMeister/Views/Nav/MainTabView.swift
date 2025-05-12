@@ -4,6 +4,10 @@ import SwiftUI
 private let accentGreen = Color(hex: 0x89D152)
 
 struct MainTabView: View {
+    init() {
+           let appearance = UITabBarAppearance()
+           appearance.configureWithOpaqueBackground()
+           }
     
     var body: some View {
         TabView {
