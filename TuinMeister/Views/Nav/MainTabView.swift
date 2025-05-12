@@ -7,6 +7,10 @@ struct MainTabView: View {
     init() {
            let appearance = UITabBarAppearance()
            appearance.configureWithOpaqueBackground()
+        
+            appearance.backgroundColor = UIColor {trait in
+                trait.userInterfaceStyle == .dark ? .black : .white
+            }
            }
     
     var body: some View {
