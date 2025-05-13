@@ -23,6 +23,17 @@ struct DeviceConnectView: View {
                     .frame(width: 120, height: 120)
             }
             .padding(.top, 60)
+            
+            // Info text
+            (
+                Text("Ben je al in het bezit van het ")
+                + Text("TuinMeister-apparaat").foregroundColor(accentGreen)
+                + Text("? Dan kan je deze instellen via de knop. Indien je het apparaat nog niet hebt, kan je deze stap overslaan.")
+            )
+            .font(.body)
+            .multilineTextAlignment(.center)
+            .foregroundColor(.primary)
+            .padding(.horizontal, 30)
         }
     }
 }
