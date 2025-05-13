@@ -34,6 +34,35 @@ struct DeviceConnectView: View {
             .multilineTextAlignment(.center)
             .foregroundColor(.primary)
             .padding(.horizontal, 30)
+            
+            Spacer()
+
+            // Buttons
+            VStack(spacing: 16) {
+                Button("Apparaat instellen") {
+                    // Navigation for later on
+                }
+                .font(.headline)
+                .frame(maxWidth: .infinity, minHeight: 54)
+                .background(accentGreen)
+                .foregroundColor(.white)
+                .cornerRadius(21)
+
+                Button("Overslaan") {
+                    // Navigation for later on
+                }
+                .font(.headline)
+                .frame(maxWidth: .infinity, minHeight: 54)
+                .foregroundColor(.primary)
+                .overlay(
+                    RoundedRectangle(cornerRadius: 21)
+                        .stroke(accentGreen, lineWidth: 1)
+                )
+            }
+            .padding(.horizontal, 30)
+            .padding(.bottom, 60)
         }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .background(Color(UIColor.systemBackground).edgesIgnoringSafeArea(.all))
     }
 }
