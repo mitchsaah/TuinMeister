@@ -23,9 +23,22 @@
 		131884362DC7969E00762469 /* TuinMeister.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TuinMeister.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		13FFED402DD379A300E1A457 /* Exceptions for "TuinMeister" folder in "TuinMeister" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 131884352DC7969E00762469 /* TuinMeister */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		131884382DC7969E00762469 /* TuinMeister */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				13FFED402DD379A300E1A457 /* Exceptions for "TuinMeister" folder in "TuinMeister" target */,
+			);
 			path = TuinMeister;
 			sourceTree = "<group>";
 		};
