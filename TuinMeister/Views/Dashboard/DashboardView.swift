@@ -1,6 +1,9 @@
 import SwiftUI
 
 struct DashboardView: View {
+    @StateObject private var viewModel = WeatherViewModel()
+    @StateObject private var locationManager = LocationManager()
+    
     var body: some View {
         NavigationStack {
             VStack {
