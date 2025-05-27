@@ -6,12 +6,20 @@ struct DashboardView: View {
     
     var body: some View {
         NavigationStack {
-            VStack {
-                Spacer()
-                Text("Dashboard pagina")
-                    .font(.title2)
-                    .foregroundColor(.secondary)
-                Spacer()
+            VStack (alignment: .leading, spacing: 16) {
+                
+                // Top nav + logo
+                HStack {
+                    Image(systemName: "line.3.horizontal")
+                        .font(.title2)
+                    Spacer()
+                    Image("tm-logo")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 80, height: 30)
+                }
+                .padding(.horizontal, 16)
+                .padding(.top)
             }
             .navigationTitle("Dashboard")
         }
