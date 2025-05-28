@@ -20,8 +20,18 @@ struct DashboardView: View {
                 }
                 .padding(.horizontal, 16)
                 .padding(.top)
+                
+                // Title
+                HStack(spacing: 0) {
+                    Text("Mijn")
+                        .font(.system(size: 28, weight: .semibold))
+                        .foregroundColor(Color.primary)
+                    Text(" Tuin")
+                        .font(.system(size: 28, weight: .semibold))
+                        .foregroundColor(Color(hex: 0x7FC241))
+                }
+                .padding(.horizontal, 16)
             }
-            .navigationTitle("Dashboard")
         }
     }
 }
