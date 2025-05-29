@@ -6,7 +6,7 @@ struct DashboardView: View {
     @StateObject private var locationManager = LocationManager()
     
     var body: some View {
-        NavigationStack {
+        ScrollView(.vertical, showsIndicators: false) {
             VStack (alignment: .leading, spacing: 16) {
                 
                 // Top nav + logo
@@ -74,6 +74,10 @@ struct DashboardView: View {
                     }
                 }
                 .padding(.horizontal, 8)
+                
+                // News Section
+                NewsSection()
+                    .padding(.top, 24)
 
                 Spacer()
             }

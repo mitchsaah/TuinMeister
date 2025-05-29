@@ -34,7 +34,9 @@ struct MainTabView: View {
                     Text("Meldingen")
                 }
             
-            DashboardView()
+            NavigationStack {
+                    DashboardView()
+                }
                 .tabItem {
                     Image(systemName: "house")
                     Text("Dashboard")
