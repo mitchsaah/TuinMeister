@@ -16,6 +16,26 @@ struct NewsSection: View {
                     .fontWeight(.bold)
                     .foregroundColor(Color(hex: 0x7FC241))
             }
+            
+            // Article list box
+            VStack(spacing: 16) {
+                ScrollView(.vertical, showsIndicators: false) {
+                    VStack(spacing: 16) {
+                        ForEach(showAll ? viewModel.articles : Array(viewModel.articles.prefix(2))) { article in
+                            NavigationLink(destination: NewsDetailView(article: article)) {
+                                HStack(alignment: .center, spacing: 12) {
+                                }
+                                .padding(.horizontal, 4)
+                                .transition(.asymmetric(
+                                    insertion: .move(edge: .bottom).combined(with: .opacity),
+                                    removal: .opacity
+                                ))
+                            }
+                        }
+                    }
+                }
+                .frame(height: showAll ? CGFloat(viewModel.articles.count * 90) : 180)
+            }
         }
         .padding(.horizontal, 8)
         .onAppear {
