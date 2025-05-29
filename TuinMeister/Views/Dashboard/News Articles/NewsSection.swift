@@ -33,6 +33,14 @@ struct NewsSection: View {
                                     }
                                     .frame(width: 70, height: 70)
                                     .clipShape(RoundedRectangle(cornerRadius: 12))
+                                    
+                                    Text(article.title)
+                                        .font(.subheadline)
+                                        .foregroundColor(.primary)
+                                        .multilineTextAlignment(.leading)
+                                        .lineLimit(4)
+                                        .fixedSize(horizontal: false, vertical: true)
+                                        .frame(maxWidth: .infinity, alignment: .leading)
                                 }
                                 .padding(.horizontal, 4)
                                 .transition(.asymmetric(
