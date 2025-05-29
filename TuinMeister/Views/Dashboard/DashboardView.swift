@@ -19,33 +19,65 @@ struct DashboardView: View {
                         .scaledToFit()
                         .frame(width: 80, height: 30)
                 }
-                .padding(.horizontal, 16)
+                .padding(.horizontal, 8)
                 .padding(.top)
                 
                 // Title
                 HStack(spacing: 0) {
                     Text("Mijn")
-                        .font(.system(size: 28, weight: .semibold))
+                        .font(.system(size: 32, weight: .semibold))
                         .foregroundColor(Color.primary)
                     Text(" Tuin")
-                        .font(.system(size: 28, weight: .semibold))
+                        .font(.system(size: 32, weight: .semibold))
                         .foregroundColor(Color(hex: 0x7FC241))
                 }
-                .padding(.horizontal, 16)
+                .padding(.horizontal, 8)
+                .padding(.bottom, 24)
                 
                 // Weather info boxes
-                HStack(spacing: 16) {
+                HStack(spacing: 8) {
                     WeatherBox(icon: "thermometer", value: "\(viewModel.temperature)°")
                     WeatherBox(icon: "drop", value: "\(viewModel.humidity)%")
                     WeatherBox(icon: "sun.max", value: "\(viewModel.uvIndex)")
                 }
-                .padding(.horizontal, 16)
+                .padding(.horizontal, 8)
+                .padding(.bottom, 24)
                 .frame(maxWidth: .infinity, alignment: .center)
-                .frame(height: 70)
+                .frame(height: 50)
+                
+                // Instruction text
+                Text("Hier kan je uw apparaten verbinden door het groene plusje aan te tikken.")
+                    .font(.subheadline)
+                    .foregroundColor(.gray)
+                    .padding(.horizontal, 8)
+
+                // Filter + add button row
+                HStack(spacing: 8) {
+                    HStack(spacing: 8) {
+                        FilterButton(title: "Alle")
+                        FilterButton(title: "Indoor")
+                        FilterButton(title: "Outdoor")
+                    }
+
+                    Spacer()
+
+                    Button(action: {
+                    // Placeholder action
+                    }) {
+                        Image(systemName: "plus")
+                            .font(.system(size: 16, weight: .bold))
+                            .foregroundColor(.white)
+                            .frame(height: 40)
+                            .padding(.horizontal, 8)
+                            .background(Color(hex: 0x89D152))
+                            .clipShape(RoundedRectangle(cornerRadius: 12))
+                    }
+                }
+                .padding(.horizontal, 8)
 
                 Spacer()
             }
-            .padding(.horizontal, 16)
+            .padding(.horizontal, 8)
             .onAppear {
                 if let location = locationManager.location {
                     viewModel.fetchWeather(for: location)
@@ -79,14 +111,20 @@ struct WeatherBox: View {
     }
 }
 
+struct FilterButton: View {
+    let title: String
+    @Environment(\.colorScheme) var colorScheme
 
-struct DashboardView_Previews: PreviewProvider {
-    static var previews: some View {
-        Group {
-            DashboardView()
-                .preferredColorScheme(.light)
-            DashboardView()
-                .preferredColorScheme(.dark)
-        }
+    var body: some View {
+        Text(title)
+            .font(.system(size: 16, weight: .regular))
+            .foregroundColor(colorScheme == .dark ? .white : .primary)
+            .frame(height: 40)
+            .padding(.horizontal, 16)
+            .background(Color.clear)
+            .overlay(
+                RoundedRectangle(cornerRadius: 12)
+                    .stroke(colorScheme == .dark ? Color.white : Color.black.opacity(0.8), lineWidth: 1)
+            )
     }
 }
