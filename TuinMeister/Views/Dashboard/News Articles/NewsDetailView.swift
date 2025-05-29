@@ -23,6 +23,17 @@ struct NewsDetailView: View {
                         .fill(Color.gray.opacity(0.2))
                         .frame(height: 200)
                 }
+                
+                // Source
+                VStack(alignment: .leading, spacing: 4) {
+                    Text("Bron")
+                        .font(.subheadline)
+                        .fontWeight(.semibold)
+
+                    Text(article.source)
+                        .font(.subheadline)
+                        .foregroundColor(.secondary)
+                }
             }
             .padding()
         }
