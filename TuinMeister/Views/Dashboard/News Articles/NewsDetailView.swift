@@ -34,6 +34,11 @@ struct NewsDetailView: View {
                         .font(.subheadline)
                         .foregroundColor(.secondary)
                 }
+                
+                // Full text
+                Text(article.text)
+                    .font(.body)
+                    .foregroundColor(.primary)
             }
             .padding()
         }
