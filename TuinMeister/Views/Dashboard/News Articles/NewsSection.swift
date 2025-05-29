@@ -24,6 +24,15 @@ struct NewsSection: View {
                         ForEach(showAll ? viewModel.articles : Array(viewModel.articles.prefix(2))) { article in
                             NavigationLink(destination: NewsDetailView(article: article)) {
                                 HStack(alignment: .center, spacing: 12) {
+                                    AsyncImage(url: URL(string: article.imageUrl)) { image in
+                                        image
+                                            .resizable()
+                                            .aspectRatio(contentMode: .fill)
+                                    } placeholder: {
+                                        Color.gray.opacity(0.2)
+                                    }
+                                    .frame(width: 70, height: 70)
+                                    .clipShape(RoundedRectangle(cornerRadius: 12))
                                 }
                                 .padding(.horizontal, 4)
                                 .transition(.asymmetric(
