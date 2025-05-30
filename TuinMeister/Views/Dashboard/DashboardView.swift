@@ -74,6 +74,34 @@ struct DashboardView: View {
                     }
                 }
                 .padding(.horizontal, 8)
+                .padding(.bottom, 48)
+                
+                // Groen Archief
+                HStack {
+                    HStack(spacing: 0) {
+                        Text("Groen")
+                            .foregroundColor(Color(hex: 0x7FC241))
+                        Text(" Archief")
+                            .foregroundColor(.primary)
+                    }
+                    .font(.system(size: 28, weight: .semibold))
+
+                    Spacer()
+
+                    // Scanner button
+                    Button(action: {
+                    }) {
+                        Image(systemName: "viewfinder")
+                            .font(.system(size: 16, weight: .bold))
+                            .foregroundColor(.white)
+                            .padding(.horizontal, 8)
+                            .frame(height: 40)
+                            .background(Color(hex: 0x89D152))
+                            .clipShape(RoundedRectangle(cornerRadius: 12))
+                    }
+                }
+                .padding(.horizontal, 8)
+                .padding(.bottom, 48)
                 
                 // News Section
                 NewsSection()
