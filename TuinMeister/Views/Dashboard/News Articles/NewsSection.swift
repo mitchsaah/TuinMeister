@@ -71,6 +71,11 @@ struct NewsSection: View {
                     .buttonStyle(PlainButtonStyle())
                 }
             }
+            .padding()
+            .background(
+                RoundedRectangle(cornerRadius: 20)
+                    .stroke(Color.primary.opacity(0.2))
+            )
         }
         .padding(.horizontal, 8)
         .onAppear {
