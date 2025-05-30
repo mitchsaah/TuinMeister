@@ -52,6 +52,24 @@ struct NewsSection: View {
                     }
                 }
                 .frame(height: showAll ? CGFloat(viewModel.articles.count * 90) : 180)
+                
+                if viewModel.articles.count > 2 {
+                    Button {
+                        withAnimation(.easeInOut(duration: 0.3)) {
+                            showAll.toggle()
+                        }
+                    } label: {
+                        VStack(spacing: 4) {
+                            Text(showAll ? "Minder artikels weergeven" : "Meer artikels weergeven")
+                                .font(.footnote)
+                                .foregroundColor(.gray)
+                            Image(systemName: showAll ? "chevron.up" : "chevron.down")
+                                .foregroundColor(.gray)
+                        }
+                        .frame(maxWidth: .infinity)
+                    }
+                    .buttonStyle(PlainButtonStyle())
+                }
             }
         }
         .padding(.horizontal, 8)
