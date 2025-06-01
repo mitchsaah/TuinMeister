@@ -33,3 +33,9 @@ struct Taxonomy: Codable {
 struct PlantImage: Codable {
     let url: String?
 }
+
+struct SimilarImage: Codable {
+    let id: String?
+    let url: String?
+    let similarity: Double?
+}
