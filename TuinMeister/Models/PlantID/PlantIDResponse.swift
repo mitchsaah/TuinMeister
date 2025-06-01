@@ -7,6 +7,15 @@ struct PlantIDResponse: Codable {
 struct Suggestion: Codable {
     let plantName: String
     let plantDetails: PlantDetails
+    let probability: Double
+    let similarImages: [SimilarImage]?
+
+    enum CodingKeys: String, CodingKey {
+        case plantName = "plant_name"
+        case plantDetails = "plant_details"
+        case probability
+        case similarImages = "similar_images"
+    }
 }
 
 struct PlantDetails: Codable {
