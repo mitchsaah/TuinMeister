@@ -20,3 +20,7 @@ struct Watering: Codable {
 struct WikiDescription: Codable {
     let value: String?
 }
+
+struct Taxonomy: Codable {
+    let family: String?
+}
