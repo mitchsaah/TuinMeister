@@ -16,3 +16,7 @@ struct Watering: Codable {
     let min: Int?
     let max: Int?
 }
+
+struct WikiDescription: Codable {
+    let value: String?
+}
