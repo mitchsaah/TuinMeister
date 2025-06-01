@@ -10,6 +10,11 @@ struct Suggestion: Codable {
 }
 
 struct PlantDetails: Codable {
+    let watering: Watering?
+    let wikiDescription: WikiDescription?
+    let taxonomy: Taxonomy?
+    let defaultImage: PlantImage?
+    let url: String?
 }
 
 struct Watering: Codable {
