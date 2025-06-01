@@ -34,5 +34,29 @@ class PlantIDService {
             ]
 
             request.httpBody = try? JSONSerialization.data(withJSONObject: body)
+        
+        URLSession.shared.dataTask(with: request) { data, response, error in
+            if let error = error {
+                completion(.failure(error))
+                return
+            }
+
+            guard let data = data else {
+                completion(.failure(NSError(domain: "Empty response", code: -1)))
+                return
+            }
+
+            do {
+                let decoded = try JSONDecoder().decode(PlantIDResponse.self, from: data)
+                if let suggestion = decoded.suggestions.first {
+                    completion(.success(suggestion))
+                } else {
+                    completion(.failure(NSError(domain: "No result", code: -2)))
+                }
+            } catch {
+                print("Decoding error: \(error)")
+                completion(.failure(error))
+            }
+        }.resume()
     }
 }
