@@ -6,6 +6,7 @@ struct PlantIDResponse: Codable {
 
 struct Suggestion: Codable {
     let plantName: String
+    let plantDetails: PlantDetails
 }
 
 struct PlantDetails: Codable {
