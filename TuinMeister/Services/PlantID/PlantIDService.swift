@@ -16,5 +16,23 @@ class PlantIDService {
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        
+        let body: [String: Any] = [
+                "api_key": apiKey,
+                "images": [base64Image],
+                "modifiers": ["crops_fast", "similar_images"],
+                "plant_language": "en",
+                "plant_details": [
+                    "common_names",
+                    "wiki_description",
+                    "watering",
+                    "sunlight",
+                    "taxonomy",
+                    "url",
+                    "default_image"
+                ]
+            ]
+
+            request.httpBody = try? JSONSerialization.data(withJSONObject: body)
     }
 }
