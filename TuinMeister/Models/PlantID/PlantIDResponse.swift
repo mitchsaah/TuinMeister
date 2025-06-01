@@ -11,3 +11,8 @@ struct Suggestion: Codable {
 
 struct PlantDetails: Codable {
 }
+
+struct Watering: Codable {
+    let min: Int?
+    let max: Int?
+}
