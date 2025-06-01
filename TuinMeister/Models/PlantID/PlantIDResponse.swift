@@ -24,3 +24,7 @@ struct WikiDescription: Codable {
 struct Taxonomy: Codable {
     let family: String?
 }
+
+struct PlantImage: Codable {
+    let url: String?
+}
