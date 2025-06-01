@@ -10,4 +10,11 @@ class PlantIDService {
         }
         return key
     }
+    
+    func identifyPlant(from base64Image: String, completion: @escaping (Result<Suggestion, Error>) -> Void) {
+        let url = URL(string: "https://api.plant.id/v2/identify")!
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+    }
 }
