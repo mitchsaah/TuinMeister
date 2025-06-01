@@ -17,6 +17,11 @@ class CameraViewModel: NSObject, ObservableObject {
         return session
     }
     
+    func captureCurrentFrame() {
+        let settings = AVCapturePhotoSettings()
+        output.capturePhoto(with: settings, delegate: self)
+    }
+    
     private func configureSession() {
         session.beginConfiguration()
         session.sessionPreset = .photo
@@ -36,6 +41,22 @@ class CameraViewModel: NSObject, ObservableObject {
         session.startRunning()
         DispatchQueue.main.async {
             self.isReady = true
+        }
+    }
+}
+
+extension CameraViewModel: AVCapturePhotoCaptureDelegate {
+    func photoOutput(_ output: AVCapturePhotoOutput,
+                     didFinishProcessingPhoto photo: AVCapturePhoto,
+                     error: Error?) {
+        guard let data = photo.fileDataRepresentation(),
+              let image = UIImage(data: data) else {
+            print("Failed to convert photo to image")
+            return
+        }
+
+        DispatchQueue.main.async {
+            self.frameHandler?(image)
         }
     }
 }
