@@ -50,6 +50,27 @@ struct PlantOverlayView: View {
                         Text(mapMaintenance(suggestion.plantDetails.watering))
                     }
                 }
+                
+                VStack(alignment: .leading, spacing: 6) {
+                    Text("Beschrijving").bold()
+
+                    let description = suggestion.plantDetails.wikiDescription?.value?.trimmingCharacters(in: .whitespacesAndNewlines)
+
+                    if let desc = description, !desc.isEmpty {
+                        Text(desc)
+                    } else if let fallbackURL = suggestion.plantDetails.url {
+                        Text("Geen beschrijving beschikbaar.\nMeer info: \(fallbackURL)")
+                            .foregroundColor(.blue)
+                            .underline()
+                            .onTapGesture {
+                                if let url = URL(string: fallbackURL) {
+                                    UIApplication.shared.open(url)
+                                }
+                            }
+                    } else {
+                        Text("Geen beschrijving beschikbaar.")
+                    }
+                }
             }
             .padding()
         }
