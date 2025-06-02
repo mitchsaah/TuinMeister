@@ -38,6 +38,18 @@ struct PlantOverlayView: View {
                     .clipped()
                     .cornerRadius(16)
                 }
+                
+                HStack {
+                    VStack(alignment: .leading) {
+                        Text("Familie").bold()
+                        Text(suggestion.plantDetails.taxonomy?.family ?? "Onbekend")
+                    }
+                    Spacer()
+                    VStack(alignment: .leading) {
+                        Text("Onderhoud").bold()
+                        Text(mapMaintenance(suggestion.plantDetails.watering))
+                    }
+                }
             }
             .padding()
         }
@@ -54,4 +66,18 @@ struct PlantOverlayView: View {
         }
         return nil
     }
+    
+    func mapMaintenance(_ watering: Watering?) -> String {
+            guard let watering = watering else { return "Onbekend" }
+            let min = watering.min ?? 0
+            let max = watering.max ?? 0
+            let average = Double(min + max) / 2.0
+
+            switch average {
+            case 0..<1.5: return "Laag"
+            case 1.5..<2.5: return "Gemiddeld"
+            default: return "Hoog"
+            }
+        }
+
 }
