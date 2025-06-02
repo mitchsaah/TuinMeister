@@ -26,8 +26,32 @@ struct PlantOverlayView: View {
                         .multilineTextAlignment(.center)
                         .frame(maxWidth: .infinity)
                 }
+                
+                if let url = getPlantImageURL() {
+                    AsyncImage(url: url) { image in
+                        image.resizable()
+                    } placeholder: {
+                        ProgressView()
+                    }
+                    .scaledToFill()
+                    .frame(height: 250)
+                    .clipped()
+                    .cornerRadius(16)
+                }
             }
             .padding()
         }
+    }
+    
+    func getPlantImageURL() -> URL? {
+        if let similar = suggestion.similarImages?.first?.url,
+            let url = URL(string: similar) {
+            return url
+        }
+        if let fallback = suggestion.plantDetails.defaultImage?.url,
+            let url = URL(string: fallback) {
+            return url
+        }
+        return nil
     }
 }
