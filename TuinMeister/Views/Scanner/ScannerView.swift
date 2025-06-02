@@ -4,15 +4,13 @@ struct ScannerView: View {
     @StateObject private var cameraViewModel = CameraViewModel()
 
     var body: some View {
-        NavigationStack {
-            VStack {
-                Spacer()
-                Text("Scanner pagina")
-                    .font(.title2)
-                    .foregroundColor(.secondary)
-                Spacer()
+        ZStack {
+            if cameraViewModel.isReady {
+                CameraPreviewView(session: cameraViewModel.getSession())
+                    .ignoresSafeArea()
+            } else {
+                Text("Camera starten mislukt.")
             }
-            .navigationTitle("Scanner")
         }
     }
 }
