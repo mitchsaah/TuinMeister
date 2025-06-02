@@ -8,10 +8,29 @@ struct ScannerView: View {
             if cameraViewModel.isReady {
                 CameraPreviewView(session: cameraViewModel.getSession())
                     .ignoresSafeArea()
+                
+                VStack {
+                    Spacer()
+                    Button(action: {
+                        print("Button tapped")
+                        scanCurrentFrame()
+                    }) {
+                        Text("Scan Plant")
+                            .padding()
+                            .frame(maxWidth: .infinity)
+                            .background(.ultraThinMaterial)
+                            .clipShape(Capsule())
+                    }
+                    .padding()
+                }
             } else {
                 Text("Camera starten mislukt.")
             }
         }
+    }
+    
+    func scanCurrentFrame() {
+        cameraViewModel.captureCurrentFrame()
     }
 }
 
