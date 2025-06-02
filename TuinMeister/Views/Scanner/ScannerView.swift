@@ -39,6 +39,19 @@ struct ScannerView: View {
                 }
             }
         }
+        
+        .onChange(of: showOverlay) {
+            print("showOverlay triggered")
+        }
+        .fullScreenCover(isPresented: $showOverlay) {
+            Group {
+                if let suggestion {
+                    PlantOverlayView(suggestion: suggestion)
+                } else {
+                    Text("Geen plant gevonden")
+                }
+            }
+        }
     }
     
     func scanCurrentFrame() {
