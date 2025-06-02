@@ -1,6 +1,8 @@
 import SwiftUI
 
 struct ScannerView: View {
+    @StateObject private var cameraViewModel = CameraViewModel()
+
     var body: some View {
         NavigationStack {
             VStack {
