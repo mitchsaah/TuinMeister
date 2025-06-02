@@ -2,6 +2,8 @@ import SwiftUI
 
 struct ScannerView: View {
     @StateObject private var cameraViewModel = CameraViewModel()
+    @State private var showOverlay = false
+    @State private var suggestion: Suggestion? = nil
 
     var body: some View {
         ZStack {
@@ -27,20 +29,34 @@ struct ScannerView: View {
                 Text("Camera starten mislukt.")
             }
         }
+        
+        .onAppear {
+            cameraViewModel.frameHandler = { image in
+                print("Frame captured!")
+                if let jpegData = image.jpegData(compressionQuality: 0.8) {
+                    let base64 = jpegData.base64EncodedString()
+                    identifyPlant(base64Image: base64)
+                }
+            }
+        }
     }
     
     func scanCurrentFrame() {
         cameraViewModel.captureCurrentFrame()
     }
-}
-
-struct ScannerView_Previews: PreviewProvider {
-    static var previews: some View {
-        Group {
-            ScannerView()
-                .preferredColorScheme(.light)
-            ScannerView()
-                .preferredColorScheme(.dark)
+    
+    func identifyPlant(base64Image: String) {
+        PlantIDService.shared.identifyPlant(from: base64Image) { result in
+            DispatchQueue.main.async {
+                switch result {
+                case .success(let s):
+                    print("Plant identified: \(s.plantName)")
+                    self.suggestion = s
+                    self.showOverlay = true
+                case .failure(let error):
+                    print("API Error: \(error.localizedDescription)")
+                }
+            }
         }
     }
 }
