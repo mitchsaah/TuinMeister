@@ -59,7 +59,7 @@ struct PlantOverlayView: View {
                     if let desc = description, !desc.isEmpty {
                         Text(desc)
                     } else if let fallbackURL = suggestion.plantDetails.url {
-                        Text("Geen beschrijving beschikbaar.\nMeer info: \(fallbackURL)")
+                        Text("Meer info: \(fallbackURL)")
                             .foregroundColor(.blue)
                             .underline()
                             .onTapGesture {
@@ -67,8 +67,6 @@ struct PlantOverlayView: View {
                                     UIApplication.shared.open(url)
                                 }
                             }
-                    } else {
-                        Text("Geen beschrijving beschikbaar.")
                     }
                 }
             }
