@@ -1,7 +1,7 @@
 import Foundation
 import CoreBluetooth
 
-class BLEManager: NSObject, ObservableObject, CBPeripheralDelegate {
+class BLEManager: NSObject, ObservableObject {
     @Published var peripherals: [CBPeripheral] = []
     @Published var isScanning = false
     @Published var isConnected = false
@@ -13,6 +13,8 @@ class BLEManager: NSObject, ObservableObject, CBPeripheralDelegate {
     private var statusCharacteristic: CBCharacteristic?
     
     private let serviceUUID  = CBUUID(string: "ABF00000-0000-0000-0000-000000000000")
+    private let writeUUID    = CBUUID(string: "ABF10000-0000-0000-0000-000000000000")
+    private let statusUUID   = CBUUID(string: "ABF20000-0000-0000-0000-000000000000")
 
     override init() {
         super.init()
@@ -87,5 +89,20 @@ extension BLEManager: CBCentralManagerDelegate {
         guard let data = payload.data(using: .utf8) else { return }
         print("[BLEManager] Wi-Fi credentials sent: \(payload)")
         peripheral.writeValue(data, for: characteristic, type: .withResponse)
+    }
+}
+
+extension BLEManager: CBPeripheralDelegate {
+    func peripheral(_ peripheral: CBPeripheral,
+                    didDiscoverServices error: Error?) {
+        if let e = error {
+            print("[BLEManager] Error at services: \(e.localizedDescription)")
+            return
+        }
+        guard let services = peripheral.services else { return }
+        for service in services {
+            print("[BLEManager] Service found: \(service.uuid.uuidString)")
+            peripheral.discoverCharacteristics([writeUUID, statusUUID], for: service)
+        }
     }
 }
