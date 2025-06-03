@@ -126,4 +126,14 @@ extension BLEManager: CBPeripheralDelegate {
             }
         }
     }
+    
+    func peripheral(_ peripheral: CBPeripheral,
+                    didWriteValueFor characteristic: CBCharacteristic,
+                    error: Error?) {
+        if let e = error {
+            print("[BLEManager] Error at writing: \(e.localizedDescription)")
+        } else {
+            print("[BLEManager] SSID and PW sent, waiting for response...")
+        }
+    }
 }
