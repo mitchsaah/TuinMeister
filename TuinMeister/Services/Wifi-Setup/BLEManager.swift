@@ -76,4 +76,16 @@ extension BLEManager: CBCentralManagerDelegate {
         print("[BLEManager] Disconnecting, restarting scan...")
         restartScan()
     }
+    
+    func sendWiFiCredentials(ssid: String, password: String) {
+        guard let peripheral = connectedPeripheral,
+              let characteristic = writeCharacteristic else {
+            print("[BLEManager] No connected device.")
+            return
+        }
+        let payload = "\(ssid);\(password)"
+        guard let data = payload.data(using: .utf8) else { return }
+        print("[BLEManager] Wi-Fi credentials sent: \(payload)")
+        peripheral.writeValue(data, for: characteristic, type: .withResponse)
+    }
 }
