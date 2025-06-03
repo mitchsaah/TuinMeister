@@ -6,6 +6,8 @@ class BLEManager: NSObject, ObservableObject {
     @Published var isScanning = false
     @Published var isConnected = false
     @Published var connectError: String?
+    @Published var didProvision = false
+    @Published var provisionError: String?
 
     private var centralManager: CBCentralManager!
     var connectedPeripheral: CBPeripheral?
@@ -134,6 +136,34 @@ extension BLEManager: CBPeripheralDelegate {
             print("[BLEManager] Error at writing: \(e.localizedDescription)")
         } else {
             print("[BLEManager] SSID and PW sent, waiting for response...")
+        }
+    }
+    
+    func peripheral(_ peripheral: CBPeripheral,
+                        didUpdateValueFor characteristic: CBCharacteristic,
+                        error: Error?) {
+            if let e = error {
+                print("[BLEManager] Error at status-update: \(e.localizedDescription)")
+                return
+            }
+            guard let data = characteristic.value,
+                  let str = String(data: data, encoding: .utf8) else {
+                print("[BLEManager] Invalid status-data")
+                return
+            }
+
+        print("[BLEManager] Received status: \(str)")
+
+        DispatchQueue.main.async {
+            if str == "OK" {
+                self.didProvision = true
+                self.provisionError = nil
+                self.restartScan()
+            } else {
+                self.didProvision = false
+                self.provisionError = "Wi-Fi failed: Try again."
+                self.restartScan()
+            }
         }
     }
 }
