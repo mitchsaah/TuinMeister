@@ -51,8 +51,56 @@ struct DeviceScanView: View {
                             .foregroundColor(.secondary)
                     }
                     .padding(.top, 50)
-                } else {
-                    
+                } else { // Device peripherals
+                    ScrollView {
+                        VStack(spacing: 12) {
+                            ForEach(bleManager.peripherals, id: \.identifier) { peripheral in
+                                Button(action: {
+                                    if selectedPeripheral?.identifier == peripheral.identifier {
+                                        selectedPeripheral = nil
+                                        print("[DeviceScanView] Deselected \(peripheral.name ?? "")")
+                                    } else {
+                                        selectedPeripheral = peripheral
+                                        print("[DeviceScanView] Selected \(peripheral.name ?? "")")
+                                    }
+                                }) {
+                                HStack {
+                                    Text(peripheral.name ?? "TM_…")
+                                        .font(.body)
+                                        .bold()
+                                        .foregroundColor(
+                                            selectedPeripheral?.identifier == peripheral.identifier
+                                                ? .white
+                                                : .primary
+                                        )
+                                    Spacer()
+                                    if selectedPeripheral?.identifier == peripheral.identifier {
+                                        Image(systemName: "checkmark")
+                                            .foregroundColor(.white)
+                                    }
+                                }
+                                .padding(.horizontal, 16)
+                                .frame(height: 50)
+                                .background(
+                                    ZStack {
+                                        RoundedRectangle(cornerRadius: 25)
+                                            .fill(
+                                                selectedPeripheral?.identifier == peripheral.identifier
+                                                    ? Color.accentGreen
+                                                    : Color.clear
+                                            )
+                                        RoundedRectangle(cornerRadius: 25)
+                                            .stroke(Color.accentGreen, lineWidth: 2)
+                                    }
+                                )
+                            }
+                            .buttonStyle(PlainButtonStyle())
+                            .padding(.horizontal, 24)
+                        }
+                    }
+                    .padding(.vertical, 8)
+                        
+                    }
                 }
             }
         }
