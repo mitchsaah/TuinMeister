@@ -36,11 +36,24 @@ struct DeviceScanView: View {
                 .padding(.top, 8)
                 .padding(.horizontal)
                 
+                // Subtitle
                 Text("Zorg ervoor dat je in de buurt bent van je apparaat en dat het apparaat is ingeschakeld en adverteert via Bluetooth.")
                     .font(.subheadline)
                     .multilineTextAlignment(.center)
                     .foregroundColor(.secondary)
                     .padding(.horizontal, 24)
+                
+                // ProgressView
+                if bleManager.peripherals.isEmpty {
+                    VStack(spacing: 8) {
+                        ProgressView()
+                        Text("Bezig met scannen…")
+                            .foregroundColor(.secondary)
+                    }
+                    .padding(.top, 50)
+                } else {
+                    
+                }
             }
         }
     }
