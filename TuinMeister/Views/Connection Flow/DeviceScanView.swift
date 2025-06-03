@@ -132,7 +132,12 @@ struct DeviceScanView: View {
                 print("[DeviceScanView] onAppear")
             }
             .navigationDestination(isPresented: $goToProvision) {
-                EmptyView()
+                if let peripheral = selectedPeripheral {
+                    WiFiProvisionView(deviceName: peripheral.name ?? "TM_…", shouldReset: true)
+                        .environmentObject(bleManager)
+                } else {
+                    EmptyView()
+                }
             }
         }
     }
