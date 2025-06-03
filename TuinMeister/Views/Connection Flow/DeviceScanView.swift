@@ -102,6 +102,31 @@ struct DeviceScanView: View {
                         
                     }
                 }
+                Spacer()
+                
+                Button(action: {
+                    if let per = selectedPeripheral {
+                        print("[DeviceScanView] connect(to: \(per.name ?? ""))")
+                        bleManager.connect(to: per)
+                        goToProvision = true
+                    }
+                }) {
+                    Text("Verbind wifi")
+                        .font(.headline)
+                        .frame(maxWidth: .infinity)
+                        .frame(height: 50)
+                        .background(
+                            (selectedPeripheral == nil)
+                                ? Color.gray.opacity(0.5)
+                                : Color.accentGreen
+                        )
+                        .foregroundColor(.white)
+                        .cornerRadius(25)
+                        .padding(.horizontal, 24)
+                }
+                .disabled(selectedPeripheral == nil)
+
+                Spacer().frame(height: 16)
             }
         }
     }
