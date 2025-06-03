@@ -105,4 +105,25 @@ extension BLEManager: CBPeripheralDelegate {
             peripheral.discoverCharacteristics([writeUUID, statusUUID], for: service)
         }
     }
+    
+    func peripheral(_ peripheral: CBPeripheral,
+                    didDiscoverCharacteristicsFor service: CBService,
+                    error: Error?) {
+        if let e = error {
+            print("[BLEManager] Error at characteristics: \(e.localizedDescription)")
+            return
+        }
+        guard let chars = service.characteristics else { return }
+
+        for char in chars {
+            if char.uuid == writeUUID {
+                writeCharacteristic = char
+                print("[BLEManager] Writing characteristics available")
+            } else if char.uuid == statusUUID {
+                statusCharacteristic = char
+                peripheral.setNotifyValue(true, for: char)
+                print("[BLEManager] Status characteristics activated")
+            }
+        }
+    }
 }
