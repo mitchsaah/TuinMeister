@@ -128,6 +128,12 @@ struct DeviceScanView: View {
 
                 Spacer().frame(height: 16)
             }
+            .onAppear {
+                print("[DeviceScanView] onAppear")
+            }
+            .navigationDestination(isPresented: $goToProvision) {
+                EmptyView()
+            }
         }
     }
 }
