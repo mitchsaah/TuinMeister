@@ -4,6 +4,8 @@ import CoreBluetooth
 class BLEManager: NSObject, ObservableObject, CBPeripheralDelegate {
     @Published var peripherals: [CBPeripheral] = []
     @Published var isScanning = false
+    @Published var isConnected = false
+    @Published var connectError: String?
 
     private var centralManager: CBCentralManager!
     var connectedPeripheral: CBPeripheral?
@@ -47,5 +49,19 @@ extension BLEManager: CBCentralManagerDelegate {
         if central.state == .poweredOn {
             restartScan()
         }
+    }
+    
+    func centralManager(_ central: CBCentralManager,
+                        didConnect peripheral: CBPeripheral) {
+        isConnected = true
+        print("[BLEManager] Connected to '\(peripheral.name ?? "unknown")'")
+        peripheral.discoverServices([serviceUUID])
+    }
+
+    func centralManager(_ central: CBCentralManager,
+                        didFailToConnect peripheral: CBPeripheral, error: Error?) {
+        isConnected = false
+        connectError = error?.localizedDescription ?? "unknown problem"
+        print("[BLEManager] Connection failed: \(connectError!)")
     }
 }
