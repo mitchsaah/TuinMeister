@@ -9,6 +9,8 @@ class BLEManager: NSObject, ObservableObject, CBPeripheralDelegate {
 
     private var centralManager: CBCentralManager!
     var connectedPeripheral: CBPeripheral?
+    private var writeCharacteristic: CBCharacteristic?
+    private var statusCharacteristic: CBCharacteristic?
     
     private let serviceUUID  = CBUUID(string: "ABF00000-0000-0000-0000-000000000000")
 
@@ -63,5 +65,15 @@ extension BLEManager: CBCentralManagerDelegate {
         isConnected = false
         connectError = error?.localizedDescription ?? "unknown problem"
         print("[BLEManager] Connection failed: \(connectError!)")
+    }
+    
+    func centralManager(_ central: CBCentralManager,
+                        didDisconnectPeripheral peripheral: CBPeripheral, error: Error?) {
+        isConnected = false
+        connectedPeripheral = nil
+        writeCharacteristic = nil
+        statusCharacteristic = nil
+        print("[BLEManager] Disconnecting, restarting scan...")
+        restartScan()
     }
 }
