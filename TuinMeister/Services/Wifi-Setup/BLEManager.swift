@@ -96,6 +96,26 @@ extension BLEManager: CBCentralManagerDelegate {
         print("[BLEManager] Wi-Fi credentials sent: \(payload)")
         peripheral.writeValue(data, for: characteristic, type: .withResponse)
     }
+    
+    func centralManager(
+        _ central: CBCentralManager,
+        didDiscover peripheral: CBPeripheral,
+        advertisementData: [String : Any],
+        rssi RSSI: NSNumber
+    ) {
+        let name = peripheral.name ?? "unknown"
+        print("[BLEManager] Found peripheral '\(name)' (RSSI: \(RSSI))")
+
+        // TM_ prefix
+        if name.starts(with: "TM_") {
+            DispatchQueue.main.async {
+                if !self.peripherals.contains(where: { $0.identifier == peripheral.identifier }) {
+                    self.peripherals.append(peripheral)
+                    print("[BLEManager] '\(name)' added to list")
+                }
+            }
+        }
+    }
 }
 
 extension BLEManager: CBPeripheralDelegate {
