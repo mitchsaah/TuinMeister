@@ -41,5 +41,21 @@ struct LoadingView: View {
                 goToFail = true
             }
         }
+        
+        // Navigate to SuccessView
+        .navigationDestination(isPresented: $goToSuccess) {
+            SuccessView(
+                deviceName: deviceName,
+                onNext: {
+                    print("[SuccessView] Next step")
+                }
+            )
+        }
+
+        // Navigate to FailView
+        .navigationDestination(isPresented: $goToFail) {
+            FailView(deviceName: deviceName)
+                .environmentObject(bleManager)
+        }
     }
 }
