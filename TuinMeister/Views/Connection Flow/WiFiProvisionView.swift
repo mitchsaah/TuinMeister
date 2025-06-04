@@ -82,6 +82,20 @@ struct WiFiProvisionView: View {
                     .padding(.horizontal, 24)
             }
             .disabled(!shouldEnableButton)
+            
+            Spacer().frame(height: 16)
+        }
+        
+        .navigationBarBackButtonHidden(true)
+            .onAppear {
+                if shouldReset {
+                    ssid = ""
+                    password = ""
+            }
+        }
+        .navigationDestination(isPresented: $goToLoading) {
+            LoadingView(deviceName: deviceName)
+                .environmentObject(bleManager)
         }
     }
     
