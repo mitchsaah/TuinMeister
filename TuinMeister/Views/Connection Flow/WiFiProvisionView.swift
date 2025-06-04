@@ -5,8 +5,10 @@ struct WiFiProvisionView: View {
     var deviceName: String
     var shouldReset: Bool
     
+    @EnvironmentObject var bleManager: BLEManager
     @Environment(\.presentationMode) var presentationMode
     
+    @State private var goToLoading = false
     @State private var ssid = ""
     @State private var password = ""
 
@@ -63,6 +65,27 @@ struct WiFiProvisionView: View {
                 .disableAutocorrection(true)
 
             Spacer()
+            
+            // Connect to wifi button
+            Button(action: {
+                print("[WiFiProvisionView] Start provisioning with '\(ssid)' / '\(password)'")
+                bleManager.sendWiFiCredentials(ssid: ssid, password: password)
+                goToLoading = true
+            }) {
+                Text("Verbind wifi")
+                    .font(.headline)
+                    .frame(maxWidth: .infinity)
+                    .frame(height: 50)
+                    .background(shouldEnableButton ? Color.accentGreen : Color.gray.opacity(0.5))
+                    .foregroundColor(.white)
+                    .cornerRadius(25)
+                    .padding(.horizontal, 24)
+            }
+            .disabled(!shouldEnableButton)
         }
+    }
+    
+    private var shouldEnableButton: Bool {
+        !ssid.isEmpty && !password.isEmpty && bleManager.isConnected && bleManager.isReadyToWrite
     }
 }

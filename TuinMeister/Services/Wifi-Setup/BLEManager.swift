@@ -23,6 +23,10 @@ class BLEManager: NSObject, ObservableObject {
         centralManager = CBCentralManager(delegate: self, queue: nil)
     }
     
+    var isReadyToWrite: Bool {
+            return writeCharacteristic != nil
+        }
+    
     func restartScan() {
         guard centralManager.state == .poweredOn else {
             print("[BLEManager] Bluetooth inactive, no scanning available.")
