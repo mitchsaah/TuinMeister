@@ -39,7 +39,25 @@ struct SuccessView: View {
                     .foregroundColor(.secondary)
                     .padding(.horizontal, 30)
             }
+            
+            Spacer()
+
+            Button(action: {
+                onNext()
+            }) {
+                Text("Volgende stap")
+                    .font(.headline)
+                    .frame(maxWidth: .infinity)
+                    .frame(height: 50)
+                    .background(Color.accentGreen)
+                    .foregroundColor(.white)
+                    .cornerRadius(25)
+                    .padding(.horizontal, 24)
+            }
+            Spacer().frame(height: 20)
         }
+        .navigationBarBackButtonHidden(true)
+        .padding(.top, 8)
     }
     
     private var shadowColor: Color {
