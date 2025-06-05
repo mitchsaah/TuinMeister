@@ -4,6 +4,12 @@ struct SurveyView1: View {
     @Environment(\.presentationMode) private var presentationMode
 
     private let accentGreen = Color(hex: 0x7FC241)
+    
+    enum PlantType: String {
+        case indoor = "Indoor (kamerplanten)"
+        case outdoor = "Outdoor (tuinplanten)"
+    }
+    @State private var selectedType: PlantType? = nil
 
     var body: some View {
         VStack (spacing: 0){
@@ -67,6 +73,38 @@ struct SurveyView1: View {
                 .padding(.horizontal, 24)
             }
             .padding(.top, 24)
+            
+            Spacer().frame(height: 32)
+                       
+            VStack(spacing: 16) {
+                ForEach([PlantType.indoor, PlantType.outdoor], id: \.self) { type in
+                    Button(action: {
+                        withAnimation {
+                            selectedType = type
+                        }
+                    }) {
+                        HStack {
+                            Text(type.rawValue)
+                                .font(.body)
+                                .fontWeight(.regular)
+                                .foregroundColor(selectedType == type ? .white : .primary)
+                            Spacer()
+                        }
+                        .padding(.horizontal, 16)
+                        .frame(height: 50)
+                        .background(
+                            ZStack {
+                                RoundedRectangle(cornerRadius: 25)
+                                    .fill(selectedType == type ? accentGreen : Color.clear)
+                                RoundedRectangle(cornerRadius: 25)
+                                    .stroke(accentGreen, lineWidth: 2)
+                            }
+                        )
+                    }
+                    .buttonStyle(PlainButtonStyle())
+                    .padding(.horizontal, 24)
+                }
+            }
         }
         .navigationBarBackButtonHidden(true)
     }
