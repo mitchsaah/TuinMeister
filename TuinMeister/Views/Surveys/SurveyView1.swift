@@ -41,6 +41,32 @@ struct SurveyView1: View {
             }
             .padding(.vertical, 12)
             .background(Color(UIColor.systemBackground))
+            
+            VStack {
+                (
+                Text("Gebruik je voornamelijk ")
+                    .font(.subheadline)
+                    .fontWeight(.semibold) +
+                Text("indoor")
+                    .font(.subheadline)
+                    .fontWeight(.semibold)
+                    .foregroundColor(accentGreen) +
+                Text(" of ")
+                    .font(.subheadline)
+                    .fontWeight(.semibold) +
+                Text("outdoor")
+                    .font(.subheadline)
+                    .fontWeight(.semibold)
+                    .foregroundColor(accentGreen) +
+                Text(" planten?")
+                    .font(.subheadline)
+                    .fontWeight(.semibold)
+                )
+                .multilineTextAlignment(.center)
+                .foregroundColor(.primary)
+                .padding(.horizontal, 24)
+            }
+            .padding(.top, 24)
         }
         .navigationBarBackButtonHidden(true)
     }
