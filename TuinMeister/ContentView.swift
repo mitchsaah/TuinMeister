@@ -9,30 +9,8 @@ struct ContentView: View {
                 AuthView()
                     .navigationBarHidden(true)
             } else {
-                // Temporary confirmation screen after login
-                VStack(spacing: 20) {
-                    Image(systemName: "checkmark.circle.fill")
-                        .resizable()
-                        .frame(width: 80, height: 80)
-                        .foregroundColor(.green)
-                    Text("Succesvol ingelogd!")
-                        .font(.title2)
-                        .bold()
-                }
-                .padding()
-                .navigationBarTitleDisplayMode(.inline)
-                .toolbar {
-                    ToolbarItem(placement: .navigationBarLeading) {
-                        Button(action: {
-                                AuthService.shared.signOut()
-                        }) {
-                            HStack(spacing: 4) {
-                                Image(systemName: "chevron.left")
-                                Text("Log uit")
-                            }
-                        }
-                    }
-                }
+                DeviceConnectView()
+                    .navigationBarHidden(true)
             }
         }
     }
