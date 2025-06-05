@@ -105,7 +105,26 @@ struct SurveyView1: View {
                     .padding(.horizontal, 24)
                 }
             }
+            
+            Spacer()
+            
+            Button(action: {
+            // Navigation to SurveyView2
+                print("Selected type: \(selectedType?.rawValue ?? "none")")
+            }) {
+                Text("Volgende")
+                    .font(.headline)
+                    .frame(maxWidth: .infinity)
+                    .frame(height: 50)
+                    .background(selectedType == nil ? Color.gray.opacity(0.5) : accentGreen)
+                    .foregroundColor(.white)
+                    .cornerRadius(25)
+                    .padding(.horizontal, 24)
+            }
+            .disabled(selectedType == nil)
+            .padding(.bottom, 24)
         }
         .navigationBarBackButtonHidden(true)
+        .background(Color(UIColor.systemBackground).ignoresSafeArea())
     }
 }
