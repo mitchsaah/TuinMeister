@@ -15,5 +15,11 @@ class DeviceDataService {
             plantDate: Date,
             imageUrl: String,
             completion: @escaping (Error?) -> Void
-    ) {}
+    ) {
+        guard let uid = Auth.auth().currentUser?.uid else {
+            let error = NSError(domain: "", code: 401, userInfo: [NSLocalizedDescriptionKey: "Gebruiker niet ingelogd"])
+            completion(error)
+            return
+        }
+    }
 }
