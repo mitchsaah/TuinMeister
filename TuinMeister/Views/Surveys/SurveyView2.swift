@@ -8,6 +8,8 @@ struct SurveyView2: View {
     @State private var selectedPlantName: String? = nil
     @State private var showConfirmation: Bool = false
     @StateObject private var viewModel = PlantSearchViewModel()
+    @State private var customPlantName: String = ""
+    @State private var plantDate: Date = Date()
 
     var body: some View {
         VStack (spacing: 0){
@@ -62,7 +64,7 @@ struct SurveyView2: View {
                             .fontWeight(.semibold)
                             .foregroundColor(.primary)
                     }
-                    .multilineTextAlignment(.center)
+                    .frame(maxWidth: .infinity, alignment: .leading)
                     .padding(.horizontal)
                 }
                 
@@ -127,6 +129,7 @@ struct SurveyView2: View {
                         .stroke(accentGreen, lineWidth: 1.5)
                 )
                 .padding(.horizontal)
+                .padding(.bottom, 32)
                 
                 // Suggestion list
                 if !viewModel.filteredPlants.isEmpty && !showConfirmation {
@@ -182,6 +185,36 @@ struct SurveyView2: View {
                         )
                 }
                 .padding(.horizontal)
+                .padding(.bottom, 32)
+
+                // Question 3 - title
+                VStack(alignment: .leading, spacing: 12) {
+                    Text("Leeftijd / Aangekocht")
+                        .font(.subheadline.weight(.semibold))
+                        .foregroundColor(.primary)
+
+                    Text("Weet je wanneer je jouw plant hebt gekocht (voor kamerplanten) of wanneer je een plant in je tuin hebt geplant? Dan kun je die datum hier eenvoudig noteren.")
+                        .font(.footnote)
+                        .foregroundColor(.primary)
+                        .fixedSize(horizontal: false, vertical: true)
+
+                    HStack {
+                        DatePicker("", selection: $plantDate, displayedComponents: .date)
+                            .labelsHidden()
+                            .datePickerStyle(.compact)
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                    }
+                    .padding(.horizontal, 24)
+                    .frame(height: 50)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 25)
+                            .stroke(accentGreen, lineWidth: 1.5)
+                    )
+                }
+                .padding(.horizontal)
+                .padding(.top, 8)
+                
             }
             .padding(.vertical)
         }
