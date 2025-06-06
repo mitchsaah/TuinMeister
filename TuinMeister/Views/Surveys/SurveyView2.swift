@@ -4,6 +4,10 @@ struct SurveyView2: View {
     @Environment(\.presentationMode) private var presentationMode
     
     private let accentGreen = Color(hex: 0x7FC241)
+    
+    @State private var selectedPlantName: String? = nil
+    @State private var showConfirmation: Bool = false
+    @StateObject private var viewModel = PlantSearchViewModel()
 
     var body: some View {
         VStack (spacing: 0){
@@ -61,6 +65,68 @@ struct SurveyView2: View {
                     .multilineTextAlignment(.center)
                     .padding(.horizontal)
                 }
+                
+                // Searchbar
+                HStack(spacing: 8) {
+                    Image(systemName: "magnifyingglass")
+                        .foregroundColor(.gray)
+                        .font(.system(size: 20))
+
+                    VStack(alignment: .leading, spacing: 2) {
+                        Text("Zoekopdracht")
+                            .font(.subheadline.weight(.semibold))
+                            .foregroundColor(.secondary)
+
+                        if let selected = selectedPlantName, showConfirmation {
+                            HStack(spacing: 6) {
+                                Text(selected)
+                                    .foregroundColor(.white)
+                                    .font(.subheadline)
+                                    .padding(.vertical, 6)
+                                    .padding(.horizontal, 12)
+                                    .background(accentGreen)
+                                    .cornerRadius(20)
+
+                                Button {
+                                    selectedPlantName = nil
+                                    viewModel.searchText = ""
+                                    showConfirmation = false
+                                } label: {
+                                    Image(systemName: "xmark")
+                                        .font(.system(size: 12, weight: .bold))
+                                        .foregroundColor(.white)
+                                        .padding(6)
+                                        .background(accentGreen)
+                                        .clipShape(Circle())
+                                }
+                            }
+                        } else {
+                            TextField("Zoek een plantensoort…", text: $viewModel.searchText, onCommit: {
+                                if !viewModel.searchText.trimmingCharacters(in: .whitespaces).isEmpty {
+                                    selectedPlantName = viewModel.searchText
+                                    showConfirmation = true
+                                }
+                            })
+                            .font(.subheadline)
+                            .foregroundColor(.primary)
+                            .onChange(of: viewModel.searchText) {
+                                viewModel.filterPlants(with: viewModel.searchText)
+                                selectedPlantName = nil
+                                showConfirmation = false
+                            }
+                        }
+                    }
+
+                    Spacer()
+                }
+                .padding(10)
+                .background(Color.clear)
+                .cornerRadius(32)
+                .overlay(
+                    RoundedRectangle(cornerRadius: 32)
+                        .stroke(accentGreen, lineWidth: 1.5)
+                )
+                .padding(.horizontal)
             }
         }
         .navigationBarBackButtonHidden(true)
