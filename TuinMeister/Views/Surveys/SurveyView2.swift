@@ -164,6 +164,24 @@ struct SurveyView2: View {
                     .padding(.top, 4)
                     .frame(maxWidth: .infinity, alignment: .leading)
                 }
+                
+                // Question 2 - title
+                VStack(alignment: .leading, spacing: 6) {
+                    Text("Naam plant")
+                        .font(.subheadline.weight(.semibold))
+                        .foregroundColor(.primary)
+
+                    TextField("Persoonlijke naam (Eg. Marcus)", text: $customPlantName)
+                        .font(.subheadline)
+                        .padding()
+                        .background(Color.clear)
+                        .cornerRadius(32)
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 32)
+                                .stroke(accentGreen, lineWidth: 1.5)
+                        )
+                }
+                .padding(.horizontal)
             }
             .padding(.vertical)
         }
