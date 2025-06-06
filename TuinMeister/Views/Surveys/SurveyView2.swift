@@ -10,6 +10,10 @@ struct SurveyView2: View {
     @StateObject private var viewModel = PlantSearchViewModel()
     @State private var customPlantName: String = ""
     @State private var plantDate: Date = Date()
+    
+    private var isFormComplete: Bool {
+        return selectedPlantName != nil &&                !customPlantName.trimmingCharacters(in: .whitespaces).isEmpty
+    }
 
     var body: some View {
         VStack (spacing: 0){
@@ -47,7 +51,7 @@ struct SurveyView2: View {
             }
             .padding(.vertical)
             
-            ScrollView {
+            NavigationStack {
                 VStack(alignment: .leading, spacing: 16) {
                     // Question 1 - title
                     HStack(spacing: 0) {
@@ -214,6 +218,27 @@ struct SurveyView2: View {
                 }
                 .padding(.horizontal)
                 .padding(.top, 8)
+                
+                Spacer()
+                
+                // Submit button
+                Button(action: {
+                    print("Form submitted:")
+                    print("Gekozen plant: \(selectedPlantName ?? "-")")
+                    print("Eigen naam: \(customPlantName)")
+                    print("Datum: \(plantDate)")
+                }) {
+                    Text("Voltooien")
+                        .font(.headline)
+                        .foregroundColor(.white)
+                        .frame(maxWidth: .infinity)
+                        .frame(height: 50)
+                        .background(isFormComplete ? accentGreen : Color.gray.opacity(0.5))
+                        .cornerRadius(25)
+                        .padding(.horizontal, 24)
+                }
+                .disabled(!isFormComplete)
+                .padding(.vertical, 24)
                 
             }
             .padding(.vertical)
