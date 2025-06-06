@@ -29,5 +29,21 @@ class DeviceDataService {
             "plantDate": Timestamp(date: plantDate),
             "imageUrl": imageUrl
         ]
+        
+        let ref = Firestore.firestore()
+            .collection("users")
+            .document(uid)
+            .collection("devices")
+            .document(deviceName)
+
+        ref.setData(data, merge: true) { error in
+            if let error = error {
+                print("Fout bij opslaan in Firestore: \(error.localizedDescription)")
+                completion(error)
+            } else {
+                print("Device data succesvol opgeslagen voor \(deviceName)")
+                completion(nil)
+            }
+        }
     }
 }
