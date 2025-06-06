@@ -127,7 +127,45 @@ struct SurveyView2: View {
                         .stroke(accentGreen, lineWidth: 1.5)
                 )
                 .padding(.horizontal)
+                
+                // Suggestion list
+                if !viewModel.filteredPlants.isEmpty && !showConfirmation {
+                    VStack(alignment: .leading, spacing: 12) {
+                        ForEach(viewModel.filteredPlants) { plant in
+                            Button {
+                                selectedPlantName = plant.name
+                                viewModel.searchText = plant.name
+                                showConfirmation = true
+                            } label: {
+                                HStack(spacing: 12) {
+                                    if let urlString = plant.imageUrl,
+                                       let url = URL(string: urlString) {
+                                        AsyncImage(url: url) { image in
+                                            image.resizable()
+                                        } placeholder: {
+                                            ProgressView()
+                                        }
+                                        .frame(width: 40, height: 40)
+                                        .cornerRadius(8)
+                                    } else {
+                                        Image(systemName: "leaf")
+                                            .resizable()
+                                            .frame(width: 25, height: 25)
+                                            .foregroundColor(.green)
+                                    }
+                                    
+                                    Text(plant.name)
+                                        .foregroundColor(.primary)
+                                }
+                                .padding(.horizontal)
+                            }
+                        }
+                    }
+                    .padding(.top, 4)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                }
             }
+            .padding(.vertical)
         }
         .navigationBarBackButtonHidden(true)
     }
