@@ -2,7 +2,7 @@ import SwiftUI
 
 struct SurveyView1: View {
     @Environment(\.presentationMode) private var presentationMode
-
+    
     private let accentGreen = Color(hex: 0x7FC241)
     var deviceName: String
     
@@ -54,84 +54,81 @@ struct SurveyView1: View {
                 
                 VStack {
                     (
-                        Text("Gebruik je voornamelijk ")
-                            .font(.subheadline)
-                            .fontWeight(.semibold) +
-                        Text("indoor")
-                            .font(.subheadline)
-                            .fontWeight(.semibold)
-                            .foregroundColor(accentGreen) +
-                        Text(" of ")
-                            .font(.subheadline)
-                            .fontWeight(.semibold) +
-                        Text("outdoor")
-                            .font(.subheadline)
-                            .fontWeight(.semibold)
-                            .foregroundColor(accentGreen) +
-                        Text(" planten?")
-                            .font(.subheadline)
-                            .fontWeight(.semibold)
+                    Text("Gebruik je voornamelijk ")
+                        .foregroundColor(.primary) +
+                    Text("indoor")
+                        .foregroundColor(accentGreen) +
+                    Text(" of ")
+                        .foregroundColor(.primary) +
+                    Text("outdoor")
+                        .foregroundColor(accentGreen) +
+                    Text(" planten?")
+                        .foregroundColor(.primary)
                     )
-                    .multilineTextAlignment(.center)
-                    .foregroundColor(.primary)
+                    .font(.subheadline)
+                    .fontWeight(.semibold)
+                    .multilineTextAlignment(.leading)
+                    .frame(maxWidth: .infinity, alignment: .leading)
                     .padding(.horizontal, 24)
-                }
-                .padding(.top, 24)
-                
-                Spacer().frame(height: 32)
-                
-                VStack(spacing: 16) {
-                    ForEach([PlantType.indoor, PlantType.outdoor], id: \.self) { type in
-                        Button(action: {
-                            withAnimation {
-                                selectedType = type
-                            }
-                        }) {
-                            HStack {
-                                Text(type.rawValue)
-                                    .font(.body)
-                                    .fontWeight(.regular)
-                                    .foregroundColor(selectedType == type ? .white : .primary)
-                                Spacer()
-                            }
-                            .padding(.horizontal, 16)
-                            .frame(height: 50)
-                            .background(
-                                ZStack {
-                                    RoundedRectangle(cornerRadius: 25)
-                                        .fill(selectedType == type ? accentGreen : Color.clear)
-                                    RoundedRectangle(cornerRadius: 25)
-                                        .stroke(accentGreen, lineWidth: 2)
+                    .padding(.top, 24)
+                    
+                    Spacer().frame(height: 32)
+                    
+                    VStack(spacing: 16) {
+                        ForEach([PlantType.indoor, PlantType.outdoor], id: \.self) { type in
+                            Button(action: {
+                                withAnimation {
+                                    selectedType = type
                                 }
-                            )
+                            }) {
+                                HStack {
+                                    Text(type.rawValue)
+                                        .font(.body)
+                                        .fontWeight(.regular)
+                                        .foregroundColor(selectedType == type ? .white : .primary)
+                                    Spacer()
+                                }
+                                .padding(.horizontal, 16)
+                                .frame(height: 50)
+                                .background(
+                                    ZStack {
+                                        RoundedRectangle(cornerRadius: 25)
+                                            .fill(selectedType == type ? accentGreen : Color.clear)
+                                        RoundedRectangle(cornerRadius: 25)
+                                            .stroke(accentGreen, lineWidth: 2)
+                                    }
+                                )
+                            }
+                            .buttonStyle(PlainButtonStyle())
+                            .padding(.horizontal, 24)
                         }
-                        .buttonStyle(PlainButtonStyle())
-                        .padding(.horizontal, 24)
+                    }
+                    
+                    Spacer()
+                    
+                    Button(action: {
+                        goToSurvey2 = true
+                        print("Selected type: \(selectedType?.rawValue ?? "none")")
+                    }) {
+                        Text("Volgende")
+                            .font(.headline)
+                            .frame(maxWidth: .infinity)
+                            .frame(height: 50)
+                            .background(selectedType == nil ? Color.gray.opacity(0.5) : accentGreen)
+                            .foregroundColor(.white)
+                            .cornerRadius(25)
+                            .padding(.horizontal, 24)
+                    }
+                    .disabled(selectedType == nil)
+                    .padding(.bottom, 24)
+                }
+                .navigationBarBackButtonHidden(true)
+                .background(Color(UIColor.systemBackground).ignoresSafeArea())
+                .navigationDestination(isPresented: $goToSurvey2) {
+                    if let type = selectedType {
+                        SurveyView2(deviceName: deviceName, selectedType: type)
                     }
                 }
-                
-                Spacer()
-                
-                Button(action: {
-                    goToSurvey2 = true
-                    print("Selected type: \(selectedType?.rawValue ?? "none")")
-                }) {
-                    Text("Volgende")
-                        .font(.headline)
-                        .frame(maxWidth: .infinity)
-                        .frame(height: 50)
-                        .background(selectedType == nil ? Color.gray.opacity(0.5) : accentGreen)
-                        .foregroundColor(.white)
-                        .cornerRadius(25)
-                        .padding(.horizontal, 24)
-                }
-                .disabled(selectedType == nil)
-                .padding(.bottom, 24)
-            }
-            .navigationBarBackButtonHidden(true)
-            .background(Color(UIColor.systemBackground).ignoresSafeArea())
-            .navigationDestination(isPresented: $goToSurvey2) {
-                SurveyView2(deviceName: deviceName, selectedType: selectedType)
             }
         }
     }

@@ -1,6 +1,10 @@
 import SwiftUI
 
 struct SurveyView2: View {
+    
+    let deviceName: String
+    let selectedType: SurveyView1.PlantType
+    
     @Environment(\.presentationMode) private var presentationMode
     
     private let accentGreen = Color(hex: 0x7FC241)
@@ -51,7 +55,6 @@ struct SurveyView2: View {
             }
             .padding(.vertical)
             
-            NavigationStack {
                 VStack(alignment: .leading, spacing: 16) {
                     // Question 1 - title
                     HStack(spacing: 0) {
@@ -70,6 +73,7 @@ struct SurveyView2: View {
                     }
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .padding(.horizontal)
+                    .padding(.bottom, 8)
                 }
                 
                 // Searchbar
@@ -239,9 +243,6 @@ struct SurveyView2: View {
                 }
                 .disabled(!isFormComplete)
                 .padding(.vertical, 24)
-                
-            }
-            .padding(.vertical)
         }
         .navigationBarBackButtonHidden(true)
     }
