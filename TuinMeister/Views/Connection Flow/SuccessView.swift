@@ -60,7 +60,7 @@ struct SuccessView: View {
         .navigationBarBackButtonHidden(true)
         .padding(.top, 8)
         .navigationDestination(isPresented: $goToSurvey) {
-            SurveyView1()
+            SurveyView1(deviceName: deviceName)
         }
     }
     

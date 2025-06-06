@@ -4,6 +4,7 @@ struct SurveyView1: View {
     @Environment(\.presentationMode) private var presentationMode
 
     private let accentGreen = Color(hex: 0x7FC241)
+    var deviceName: String
     
     enum PlantType: String {
         case indoor = "Indoor (kamerplanten)"
@@ -130,7 +131,7 @@ struct SurveyView1: View {
             .navigationBarBackButtonHidden(true)
             .background(Color(UIColor.systemBackground).ignoresSafeArea())
             .navigationDestination(isPresented: $goToSurvey2) {
-                SurveyView2()
+                SurveyView2(deviceName: deviceName, selectedType: selectedType)
             }
         }
     }
