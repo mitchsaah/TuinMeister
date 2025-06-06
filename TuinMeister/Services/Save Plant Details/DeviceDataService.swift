@@ -21,5 +21,13 @@ class DeviceDataService {
             completion(error)
             return
         }
+        
+        let data: [String: Any] = [
+            "plantName": plantName,
+            "custom_name": customName,
+            "type": type,
+            "plantDate": Timestamp(date: plantDate),
+            "imageUrl": imageUrl
+        ]
     }
 }
