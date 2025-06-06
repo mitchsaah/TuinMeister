@@ -39,6 +39,29 @@ struct SurveyView2: View {
                     .frame(width: 32, height: 32)
                     .padding(.trailing, 16)
             }
+            .padding(.vertical)
+            
+            ScrollView {
+                VStack(alignment: .leading, spacing: 16) {
+                    // Question 1 - title
+                    HStack(spacing: 0) {
+                        Text("Welke ")
+                            .font(.subheadline)
+                            .fontWeight(.semibold)
+                            .foregroundColor(.primary)
+                        Text("plant")
+                            .font(.subheadline)
+                            .fontWeight(.semibold)
+                            .foregroundColor(accentGreen)
+                        Text(" is het?")
+                            .font(.subheadline)
+                            .fontWeight(.semibold)
+                            .foregroundColor(.primary)
+                    }
+                    .multilineTextAlignment(.center)
+                    .padding(.horizontal)
+                }
+            }
         }
         .navigationBarBackButtonHidden(true)
     }
