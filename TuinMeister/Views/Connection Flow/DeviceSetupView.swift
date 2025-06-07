@@ -17,7 +17,20 @@ struct DeviceSetupView: View {
                     .frame(width: 120, height: 120)
             }
             .padding(.top, 60)
+            
+            // Title with text
+            VStack(spacing: 8) {
+                Text("Registratie gelukt!")
+                    .font(.title2.weight(.bold))
+                    .foregroundColor(.primary)
 
+                Text("Plaats de TuinMeister zo dicht mogelijk bij de plant voor nauwkeurige en betrouwbare metingen. Kies daarna of je er nog een toevoegt of doorgaat naar de homepagina.")
+                    .font(.body)
+                    .multilineTextAlignment(.center)
+                    .foregroundColor(.secondary)
+                    .padding(.horizontal, 30)
+            }
+            
             Spacer()
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
