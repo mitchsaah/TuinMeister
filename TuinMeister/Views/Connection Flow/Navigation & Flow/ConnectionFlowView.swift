@@ -67,6 +67,9 @@ struct ConnectionFlowView: View {
                         deviceName: name,
                         onFinish: {
                             onFinish()
+                        },
+                        onAdd: {
+                            path = [.deviceScan]
                         }
                     )
                 }

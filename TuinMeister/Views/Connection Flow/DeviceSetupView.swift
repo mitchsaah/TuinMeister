@@ -4,6 +4,7 @@ struct DeviceSetupView: View {
     private let accentGreen = Color(hex: 0x89D152)
     let deviceName: String
     var onFinish: () -> Void
+    var onAdd: () -> Void
     
     var body: some View {
         VStack(spacing: 40) {
@@ -46,7 +47,7 @@ struct DeviceSetupView: View {
                 .cornerRadius(21)
 
                 Button("Nog een toevoegen") {
-                    // 
+                    onAdd()
                 }
                 .font(.headline)
                 .frame(maxWidth: .infinity, minHeight: 54)
