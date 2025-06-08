@@ -36,6 +36,10 @@ struct MainTabView: View {
             
             NavigationStack {
                     DashboardView()
+                    .navigationDestination(for: Device.self) { device in
+                        Text("Detail voor \(device.customName)")
+                            .navigationBarBackButtonHidden(true)
+                    }
                 }
                 .tabItem {
                     Image(systemName: "house")
