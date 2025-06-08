@@ -2,6 +2,8 @@ import SwiftUI
 
 struct DeviceSetupView: View {    
     private let accentGreen = Color(hex: 0x89D152)
+    let deviceName: String
+    var onFinish: () -> Void
     
     var body: some View {
         VStack(spacing: 40) {
@@ -32,6 +34,32 @@ struct DeviceSetupView: View {
             }
             
             Spacer()
+            
+            VStack(spacing: 16) {
+                Button("Overslaan") {
+                    onFinish()
+                }
+                .font(.headline)
+                .frame(maxWidth: .infinity, minHeight: 54)
+                .background(accentGreen)
+                .foregroundColor(.white)
+                .cornerRadius(21)
+
+                Button("Nog een toevoegen") {
+                    // 
+                }
+                .font(.headline)
+                .frame(maxWidth: .infinity, minHeight: 54)
+                .foregroundColor(accentGreen)
+                .overlay(
+                    RoundedRectangle(cornerRadius: 21)
+                    .stroke(accentGreen, lineWidth: 1)
+                )
+                .background(Color(UIColor.systemBackground))
+                .cornerRadius(21)
+            }
+            .padding(.horizontal, 30)
+            .padding(.bottom, 60)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(Color(UIColor.systemBackground).edgesIgnoringSafeArea(.all))

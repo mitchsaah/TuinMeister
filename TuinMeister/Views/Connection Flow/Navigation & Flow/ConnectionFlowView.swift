@@ -4,6 +4,8 @@ struct ConnectionFlowView: View {
     @State private var path: [ConnectionStep] = []
     @StateObject private var bleManager = BLEManager()
     @State private var plantType: SurveyView1.PlantType? = nil
+    
+    var onFinish: () -> Void
 
     var body: some View {
         NavigationStack(path: $path) {
@@ -61,7 +63,12 @@ struct ConnectionFlowView: View {
                     path: $path)
 
                 case .setup(let name):
-                    DeviceSetupView(deviceName: name)
+                    DeviceSetupView(
+                        deviceName: name,
+                        onFinish: {
+                            onFinish()
+                        }
+                    )
                 }
             }
         }
