@@ -4,14 +4,17 @@ import CoreBluetooth
 struct DeviceScanView: View {
     @StateObject private var bleManager = BLEManager()
     @State private var selectedPeripheral: CBPeripheral?
-    @State private var goToProvision = false
+    
+    @Environment(\.dismiss) var dismiss
+    
+    var onSelect: (String) -> Void
     
     var body: some View {
-        NavigationStack {
             VStack(spacing: 16) {
                 
                 HStack {
                     Button(action: {
+                        dismiss()
                     }) {
                         Image(systemName: "chevron.left")
                             .font(.title2)
@@ -106,9 +109,10 @@ struct DeviceScanView: View {
                 
                 Button(action: {
                     if let per = selectedPeripheral {
-                        print("[DeviceScanView] connect(to: \(per.name ?? ""))")
+                        let name = per.name ?? "TM_…"
+                        print("[DeviceScanView] connect(to: \(name))")
                         bleManager.connect(to: per)
-                        goToProvision = true
+                        onSelect(name)
                     }
                 }) {
                     Text("Verbind wifi")
@@ -131,14 +135,5 @@ struct DeviceScanView: View {
             .onAppear {
                 print("[DeviceScanView] onAppear")
             }
-            .navigationDestination(isPresented: $goToProvision) {
-                if let peripheral = selectedPeripheral {
-                    WiFiProvisionView(deviceName: peripheral.name ?? "TM_…", shouldReset: true)
-                        .environmentObject(bleManager)
-                } else {
-                    EmptyView()
-                }
-            }
         }
     }
-}

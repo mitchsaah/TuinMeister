@@ -5,7 +5,6 @@ struct SuccessView: View {
     let onNext: () -> Void
     
     @Environment(\.colorScheme) var colorScheme
-    @State private var goToSurvey = false
     
     var body: some View {
         VStack(spacing: 40) {
@@ -44,7 +43,7 @@ struct SuccessView: View {
             Spacer()
 
             Button(action: {
-                goToSurvey = true
+                onNext()
             }) {
                 Text("Volgende stap")
                     .font(.headline)
@@ -59,9 +58,6 @@ struct SuccessView: View {
         }
         .navigationBarBackButtonHidden(true)
         .padding(.top, 8)
-        .navigationDestination(isPresented: $goToSurvey) {
-            SurveyView1(deviceName: deviceName)
-        }
     }
     
     private var shadowColor: Color {

@@ -8,6 +8,7 @@ class BLEManager: NSObject, ObservableObject {
     @Published var connectError: String?
     @Published var didProvision = false
     @Published var provisionError: String?
+    @Published var isReadyToWrite: Bool = false
 
     private var centralManager: CBCentralManager!
     var connectedPeripheral: CBPeripheral?
@@ -22,10 +23,6 @@ class BLEManager: NSObject, ObservableObject {
         super.init()
         centralManager = CBCentralManager(delegate: self, queue: nil)
     }
-    
-    var isReadyToWrite: Bool {
-            return writeCharacteristic != nil
-        }
     
     func restartScan() {
         guard centralManager.state == .poweredOn else {
@@ -64,6 +61,7 @@ extension BLEManager: CBCentralManagerDelegate {
     func centralManager(_ central: CBCentralManager,
                         didConnect peripheral: CBPeripheral) {
         isConnected = true
+        writeCharacteristic = nil
         print("[BLEManager] Connected to '\(peripheral.name ?? "unknown")'")
         peripheral.discoverServices([serviceUUID])
     }
@@ -144,7 +142,11 @@ extension BLEManager: CBPeripheralDelegate {
         for char in chars {
             if char.uuid == writeUUID {
                 writeCharacteristic = char
-                print("[BLEManager] Writing characteristics available")
+                DispatchQueue.main.async {
+                    self.isReadyToWrite = true
+                    print("[BLEManager] Writing characteristics available")
+                }
+               
             } else if char.uuid == statusUUID {
                 statusCharacteristic = char
                 peripheral.setNotifyValue(true, for: char)

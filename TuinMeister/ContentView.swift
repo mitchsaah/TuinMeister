@@ -4,12 +4,12 @@ struct ContentView: View {
     @EnvironmentObject private var appState: AppState
     
     var body: some View {
-        NavigationView {
+        NavigationStack {
             if appState.user == nil {
                 AuthView()
                     .navigationBarHidden(true)
             } else {
-                DeviceConnectView()
+                ConnectionFlowView()
                     .navigationBarHidden(true)
             }
         }

@@ -4,16 +4,22 @@ struct SurveyView2: View {
     
     let deviceName: String
     let selectedType: SurveyView1.PlantType
-    
-    @Environment(\.presentationMode) private var presentationMode
-    
+    let onComplete: () -> Void
+
+    @Binding var path: [ConnectionStep]
+
     private let accentGreen = Color(hex: 0x7FC241)
     
     @State private var selectedPlantName: String? = nil
     @State private var showConfirmation: Bool = false
+    
     @StateObject private var viewModel = PlantSearchViewModel()
     @State private var customPlantName: String = ""
     @State private var plantDate: Date = Date()
+    
+    @State private var isSaving = false
+    @State private var saveError: String? = nil
+    @State private var showAlert = false
     
     private var isFormComplete: Bool {
         return selectedPlantName != nil &&                !customPlantName.trimmingCharacters(in: .whitespaces).isEmpty
@@ -23,7 +29,7 @@ struct SurveyView2: View {
         VStack (spacing: 0){
             HStack {
                 Button(action: {
-                    presentationMode.wrappedValue.dismiss()
+                    path.removeLast()
                 }) {
                     Image(systemName: "chevron.left")
                         .font(.title2)
@@ -227,23 +233,44 @@ struct SurveyView2: View {
                 
                 // Submit button
                 Button(action: {
-                    print("Form submitted:")
-                    print("Gekozen plant: \(selectedPlantName ?? "-")")
-                    print("Eigen naam: \(customPlantName)")
-                    print("Datum: \(plantDate)")
+                    guard let plantName = selectedPlantName else { return }
+                    isSaving = true
+
+                    DeviceDataService.shared.saveDeviceData(
+                        deviceName: deviceName,
+                        plantName: plantName,
+                        customName: customPlantName,
+                        type: selectedType.rawValue,
+                        plantDate: plantDate,
+                        imageUrl: viewModel.filteredPlants
+                            .first { $0.name == plantName }?.imageUrl ?? ""
+                    ) { error in
+                        isSaving = false
+                        if let err = error {
+                            saveError = err.localizedDescription
+                            showAlert = true
+                        } else {
+                            onComplete()
+                        }
+                    }
                 }) {
-                    Text("Voltooien")
-                        .font(.headline)
-                        .foregroundColor(.white)
-                        .frame(maxWidth: .infinity)
-                        .frame(height: 50)
-                        .background(isFormComplete ? accentGreen : Color.gray.opacity(0.5))
-                        .cornerRadius(25)
-                        .padding(.horizontal, 24)
+                    if isSaving {
+                        ProgressView()
+                            .frame(maxWidth: .infinity, maxHeight: 50)
+                    } else {
+                        Text("Voltooien")
+                            .font(.headline)
+                            .foregroundColor(.white)
+                            .frame(maxWidth: .infinity)
+                            .frame(height: 50)
+                    }
                 }
-                .disabled(!isFormComplete)
+                .disabled(!isFormComplete || isSaving)
+                .background(isFormComplete ? accentGreen : Color.gray.opacity(0.5))
+                .cornerRadius(25)
+                .padding(.horizontal, 24)
                 .padding(.vertical, 24)
-        }
+            }
         .navigationBarBackButtonHidden(true)
     }
 }

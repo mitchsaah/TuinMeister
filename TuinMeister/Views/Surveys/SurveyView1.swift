@@ -1,10 +1,11 @@
 import SwiftUI
 
 struct SurveyView1: View {
-    @Environment(\.presentationMode) private var presentationMode
-    
+
     private let accentGreen = Color(hex: 0x7FC241)
     var deviceName: String
+    var onNext: (PlantType) -> Void
+    @Binding var path: [ConnectionStep]
     
     enum PlantType: String {
         case indoor = "Indoor (kamerplanten)"
@@ -12,14 +13,12 @@ struct SurveyView1: View {
     }
     
     @State private var selectedType: PlantType? = nil
-    @State private var goToSurvey2 = false
     
     var body: some View {
-        NavigationStack {
             VStack (spacing: 0){
                 HStack {
                     Button(action: {
-                        presentationMode.wrappedValue.dismiss()
+                        path.removeLast()
                     }) {
                         Image(systemName: "chevron.left")
                             .font(.title2)
@@ -107,8 +106,10 @@ struct SurveyView1: View {
                     Spacer()
                     
                     Button(action: {
-                        goToSurvey2 = true
-                        print("Selected type: \(selectedType?.rawValue ?? "none")")
+                        if let type = selectedType {
+                            print("Selected type: \(type.rawValue)")
+                            onNext(type)
+                        }
                     }) {
                         Text("Volgende")
                             .font(.headline)
@@ -124,12 +125,6 @@ struct SurveyView1: View {
                 }
                 .navigationBarBackButtonHidden(true)
                 .background(Color(UIColor.systemBackground).ignoresSafeArea())
-                .navigationDestination(isPresented: $goToSurvey2) {
-                    if let type = selectedType {
-                        SurveyView2(deviceName: deviceName, selectedType: type)
-                    }
-                }
             }
-        }
     }
 }

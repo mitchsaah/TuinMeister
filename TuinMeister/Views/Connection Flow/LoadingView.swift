@@ -2,11 +2,10 @@ import SwiftUI
 
 struct LoadingView: View {    
     let deviceName: String
+    var onSuccess: () -> Void
+    var onFail: () -> Void
     
     @EnvironmentObject var bleManager: BLEManager
-
-    @State private var goToSuccess = false
-    @State private var goToFail = false
 
     var body: some View {
         VStack(spacing: 24) {
@@ -30,7 +29,7 @@ struct LoadingView: View {
         .onReceive(bleManager.$didProvision) { didProv in
             if didProv {
                 print("[LoadingView] BLEManager.didProvision == true → navigate to SuccessView")
-                goToSuccess = true
+                onSuccess()
             }
         }
 
@@ -38,24 +37,8 @@ struct LoadingView: View {
         .onReceive(bleManager.$provisionError) { err in
             if let errorMsg = err, !errorMsg.isEmpty {
                 print("[LoadingView] BLEManager.provisionError received → navigate to FailView")
-                goToFail = true
+                onFail()
             }
-        }
-        
-        // Navigate to SuccessView
-        .navigationDestination(isPresented: $goToSuccess) {
-            SuccessView(
-                deviceName: deviceName,
-                onNext: {
-                    print("[SuccessView] Next step")
-                }
-            )
-        }
-
-        // Navigate to FailView
-        .navigationDestination(isPresented: $goToFail) {
-            FailView(deviceName: deviceName)
-                .environmentObject(bleManager)
         }
     }
 }

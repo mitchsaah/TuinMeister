@@ -4,10 +4,9 @@ struct DeviceConnectView: View {
     @Environment(\.colorScheme) private var colorScheme
     private let accentGreen = Color(hex: 0x89D152)
     
-    @State private var goToDeviceScan = false
+    var onStartScan: () -> Void
     
     var body: some View {
-        NavigationStack {
             VStack(spacing: 40) {
                 // Logo branding
                 ZStack {
@@ -43,7 +42,7 @@ struct DeviceConnectView: View {
                 // Buttons
                 VStack(spacing: 16) {
                     Button("Apparaat instellen") {
-                        goToDeviceScan = true
+                        onStartScan()
                     }
                     .font(.headline)
                     .frame(maxWidth: .infinity, minHeight: 54)
@@ -67,10 +66,5 @@ struct DeviceConnectView: View {
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .background(Color(UIColor.systemBackground).edgesIgnoringSafeArea(.all))
-            .navigationDestination(isPresented: $goToDeviceScan) {
-                DeviceScanView()
-                    .navigationBarBackButtonHidden(true)
-            }
         }
     }
-}

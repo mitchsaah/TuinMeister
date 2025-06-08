@@ -2,12 +2,11 @@ import SwiftUI
 
 struct FailView: View {
     let deviceName: String
+    let onRetry: () -> Void
     
     @EnvironmentObject var bleManager: BLEManager
     @Environment(\.colorScheme) var colorScheme
     
-    @State private var goToWiFiProvision = false
-
     var body: some View {
         VStack(spacing: 40) {
             Spacer()
@@ -45,7 +44,7 @@ struct FailView: View {
                     bleManager.provisionError = nil
                     bleManager.connectError = nil
                     bleManager.restartScan()
-                    goToWiFiProvision = true
+                    onRetry()
                 }) {
                     Text("Opnieuw proberen")
                         .font(.headline)
@@ -62,10 +61,6 @@ struct FailView: View {
         }
         .navigationBarBackButtonHidden(true)
         .padding(.top, 8)
-        .navigationDestination(isPresented: $goToWiFiProvision) {
-            WiFiProvisionView(deviceName: deviceName, shouldReset: true)
-                .environmentObject(bleManager)
-        }
     }
     
     private var shadowColor: Color {

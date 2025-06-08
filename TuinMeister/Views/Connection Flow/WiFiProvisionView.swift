@@ -4,11 +4,13 @@ import CoreBluetooth
 struct WiFiProvisionView: View {
     var deviceName: String
     var shouldReset: Bool
+    var onNext: () -> Void
+    @State private var bleReadyTrigger = false
+    
+    @Binding var path: [ConnectionStep]
     
     @EnvironmentObject var bleManager: BLEManager
-    @Environment(\.presentationMode) var presentationMode
     
-    @State private var goToLoading = false
     @State private var ssid = ""
     @State private var password = ""
 
@@ -17,7 +19,7 @@ struct WiFiProvisionView: View {
             
             HStack {
                 Button(action: {
-                    presentationMode.wrappedValue.dismiss()
+                    path.removeLast()
                 }) {
                     Image(systemName: "chevron.left")
                         .font(.title2)
@@ -70,7 +72,7 @@ struct WiFiProvisionView: View {
             Button(action: {
                 print("[WiFiProvisionView] Start provisioning with '\(ssid)' / '\(password)'")
                 bleManager.sendWiFiCredentials(ssid: ssid, password: password)
-                goToLoading = true
+                onNext()
             }) {
                 Text("Verbind wifi")
                     .font(.headline)
@@ -88,14 +90,15 @@ struct WiFiProvisionView: View {
         
         .navigationBarBackButtonHidden(true)
             .onAppear {
+                print("[WiFiProvisionView] isConnected: \(bleManager.isConnected), isReadyToWrite: \(bleManager.isReadyToWrite)")
                 if shouldReset {
                     ssid = ""
                     password = ""
             }
-        }
-        .navigationDestination(isPresented: $goToLoading) {
-            LoadingView(deviceName: deviceName)
-                .environmentObject(bleManager)
+            if !bleManager.isConnected,
+                let p = bleManager.peripherals.first(where: { $0.name == deviceName }) {
+                bleManager.connect(to: p)
+            }
         }
     }
     
