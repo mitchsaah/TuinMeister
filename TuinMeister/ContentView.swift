@@ -4,15 +4,21 @@ struct ContentView: View {
     @EnvironmentObject private var appState: AppState
     
     var body: some View {
-        NavigationStack {
+        Group {
             if appState.user == nil {
                 AuthView()
-                    .navigationBarHidden(true)
+
+            } else if !appState.didFinishSetup {
+                ConnectionFlowView {
+                    appState.didFinishSetup = true
+                }
+                .navigationBarHidden(true)
+
             } else {
-                ConnectionFlowView()
-                    .navigationBarHidden(true)
+                MainTabView()
             }
         }
+        .animation(.easeInOut, value: appState.didFinishSetup)
     }
 }
 
