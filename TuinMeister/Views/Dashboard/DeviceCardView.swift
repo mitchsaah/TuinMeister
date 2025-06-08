@@ -24,6 +24,24 @@ struct DeviceCardView: View {
                     .frame(width: 60, height: 60)
                     .padding(.top, 16)
             }
+            
+            Spacer()
+            
+            Text(device.customName)
+                .font(.subheadline).fontWeight(.semibold)
+                .foregroundColor(colorScheme == .dark ? .white : .black)
+                .lineLimit(1)
+            
+            Text(device.deviceName)
+                .font(.caption)
+                .foregroundColor(accentGreen)
+            
+            Spacer(minLength: 8)
         }
+        .frame(width: 140, height: 200)
+        .background(
+            RoundedRectangle(cornerRadius: 12)
+                .stroke(Color.gray.opacity(0.3), lineWidth: 1)
+        )
     }
 }
