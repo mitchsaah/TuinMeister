@@ -17,6 +17,12 @@ struct DeviceCardView: View {
                 }
                 .frame(width: 120, height: 120)
                 .cornerRadius(8)
+            } else {
+                Image(systemName: "leaf")
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 60, height: 60)
+                    .padding(.top, 16)
             }
         }
     }
