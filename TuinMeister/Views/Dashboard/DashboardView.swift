@@ -4,6 +4,7 @@ import CoreLocation
 struct DashboardView: View {
     @StateObject private var viewModel = WeatherViewModel()
     @StateObject private var locationManager = LocationManager()
+    @StateObject private var deviceVM = DeviceListViewModel() 
     
     var body: some View {
         ScrollView(.vertical, showsIndicators: false) {
@@ -74,7 +75,20 @@ struct DashboardView: View {
                     }
                 }
                 .padding(.horizontal, 8)
-                .padding(.bottom, 48)
+                .padding(.bottom, 24)
+                
+                ScrollView(.horizontal, showsIndicators: false) {
+                    HStack(spacing: 16) {
+                        ForEach(deviceVM.devices) { device in
+                            NavigationLink(value: device) {
+                                DeviceCardView(device: device)
+                            }
+                        }
+                    }
+                    .padding(.horizontal, 8)
+                }
+                .frame(height: 180)
+                .padding(.bottom, 24)
                 
                 // Groen Archief
                 HStack {
@@ -111,6 +125,7 @@ struct DashboardView: View {
             }
             .padding(.horizontal, 8)
             .onAppear {
+                deviceVM.fetchDevices()
                 if let location = locationManager.location {
                     viewModel.fetchWeather(for: location)
                 }
