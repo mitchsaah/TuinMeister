@@ -5,4 +5,5 @@ struct Device: Identifiable, Hashable {
     let customName: String
     let imageUrl: String
     let deviceName: String
+    let plantDate: Date
 }
