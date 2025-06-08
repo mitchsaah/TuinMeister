@@ -7,6 +7,17 @@ struct DeviceCardView: View {
     
     var body: some View {
         VStack(spacing: 8) {
+            if let url = URL(string: device.imageUrl), !device.imageUrl.isEmpty {
+                AsyncImage(url: url) { img in
+                    img
+                        .resizable()
+                        .scaledToFit()
+                } placeholder: {
+                    ProgressView()
+                }
+                .frame(width: 120, height: 120)
+                .cornerRadius(8)
+            }
         }
     }
 }
