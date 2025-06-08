@@ -3,6 +3,7 @@ import SwiftUI
 struct DeviceDetailView: View {
     @Environment(\.dismiss) private var dismiss
     let device: Device
+    private let accentGreen = Color(hex: 0x7FC241)
 
     var body: some View {
         VStack(spacing: 0) {
@@ -30,6 +31,31 @@ struct DeviceDetailView: View {
             .padding(.top, 8)
 
             Spacer()
+            
+            ScrollView {
+                VStack(spacing: 24) {
+                    if let url = URL(string: device.imageUrl), !device.imageUrl.isEmpty {
+                        AsyncImage(url: url) { img in
+                            img
+                                .resizable()
+                                .scaledToFit()
+                        } placeholder: {
+                            ProgressView()
+                        }
+                        .frame(maxWidth: .infinity, maxHeight: 200)
+                        .cornerRadius(12)
+                        .padding(.horizontal)
+                        .padding(.top, 16)
+                    } else {
+                        Image(systemName: "leaf")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 90, height: 90)
+                            .foregroundColor(accentGreen)
+                            .padding(.top, 16)
+                    }
+                }
+            }
         }
     }
 }
