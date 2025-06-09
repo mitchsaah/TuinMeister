@@ -4,6 +4,12 @@ struct DeviceDetailView: View {
     @Environment(\.dismiss) private var dismiss
     let device: Device
     private let accentGreen = Color(hex: 0x7FC241)
+    
+    @State private var typeText: String = ""
+    
+    private var typeFirstWord: String {
+        typeText.split(separator: " ").first.map(String.init) ?? typeText
+    }
 
     var body: some View {
         VStack(spacing: 0) {
@@ -54,6 +60,34 @@ struct DeviceDetailView: View {
                             .foregroundColor(accentGreen)
                             .padding(.top, 16)
                     }
+                    
+                    HStack {
+                        // Device #
+                        VStack(alignment: .leading, spacing: 4) {
+                            Text("TM")
+                                .font(.caption)
+                                .foregroundColor(.secondary)
+
+                            Text(device.deviceName)
+                                .font(.subheadline).fontWeight(.semibold)
+                                .foregroundColor(accentGreen)
+                        }
+
+                        Spacer()
+
+                        // Type
+                        VStack(spacing: 4) {
+                            Text("Type")
+                                .font(.caption)
+                                .foregroundColor(.secondary)
+                            Text(typeFirstWord)
+                                .font(.subheadline).fontWeight(.semibold)
+                                .foregroundColor(.primary)
+                        }
+
+                        Spacer()
+                    }
+                    .padding(.horizontal)
                 }
             }
         }
