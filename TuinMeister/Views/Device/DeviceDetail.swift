@@ -6,10 +6,19 @@ struct DeviceDetailView: View {
     private let accentGreen = Color(hex: 0x7FC241)
     
     @State private var typeText: String = ""
+    @State private var plantDate: Date = Date()
     
     private var typeFirstWord: String {
         typeText.split(separator: " ").first.map(String.init) ?? typeText
     }
+    
+    private var ageText: String {
+        let years = Calendar.current
+            .dateComponents([.year], from: plantDate, to: Date())
+            .year ?? 0
+        return "\(max(0, years)) jaar"
+    }
+
 
     var body: some View {
         VStack(spacing: 0) {
@@ -86,6 +95,16 @@ struct DeviceDetailView: View {
                         }
 
                         Spacer()
+                        
+                        // Age
+                        VStack(spacing: 4) {
+                            Text("Leeftijd")
+                                .font(.caption)
+                                .foregroundColor(.secondary)
+                            Text(ageText)
+                                .font(.subheadline).fontWeight(.semibold)
+                                .foregroundColor(.primary)
+                        }
                     }
                     .padding(.horizontal)
                 }
