@@ -139,6 +139,14 @@ struct DeviceDetailView: View {
         }
     }
     
+    private func getSoilThresholds(for careLevel: String) -> (low: Int, high: Int) {
+        switch careLevel.lowercased() {
+        case "low": return (20, 40)
+        case "high": return (50, 70)
+        default: return (35, 60)
+        }
+    }
+    
     @ViewBuilder
        func statBox(title: String, value: String) -> some View {
            VStack(spacing: 4) {
