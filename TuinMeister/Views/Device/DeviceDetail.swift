@@ -139,6 +139,13 @@ struct DeviceDetailView: View {
         }
     }
     
+    func getColor<T: Comparable>(for value: T, thresholds: (low: T, high: T)) -> Color {
+        if value < thresholds.low { return .red }
+        else if value < thresholds.high { return .orange }
+        else { return .green }
+    }
+
+    
     private func getSoilThresholds(for careLevel: String) -> (low: Int, high: Int) {
         switch careLevel.lowercased() {
         case "low": return (20, 40)
