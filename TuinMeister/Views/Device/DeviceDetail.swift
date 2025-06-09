@@ -114,11 +114,60 @@ struct DeviceDetailView: View {
                         }
                     }
                     .padding(.horizontal)
+                    
+                    // Stats section
+                    VStack(alignment: .leading, spacing: 16) {
+                        Text("Statistieken van jouw plant")
+                            .font(.headline)
+                            .foregroundColor(.primary)
+
+                        HStack(spacing: 12) {
+                            statBox(title: "Bodemvocht", value: "\(soilMoisture)%")
+                            statBox(title: "Luchtvocht.", value: "\(humidity)%")
+                            statBox(title: "UV's", value: "\(uvLevel)")
+                        }
+                    }
+                    .padding(.horizontal)
                 }
             }
         }
         .edgesIgnoringSafeArea(.bottom)
-        .onAppear(perform: loadDeviceDetail)
+        .onAppear {
+            loadDeviceDetail()
+            loadRealtimeData()
+        }
+    }
+    
+    @ViewBuilder
+       func statBox(title: String, value: String) -> some View {
+           VStack(spacing: 4) {
+               Text(title)
+                   .font(.caption)
+                   .foregroundColor(.secondary)
+               Text(value)
+                   .font(.title2)
+                   .fontWeight(.bold)
+                   .foregroundColor(.primary)
+           }
+           .frame(maxWidth: .infinity, minHeight: 80)
+           .background(
+               RoundedRectangle(cornerRadius: 12)
+                   .stroke(Color.primary, lineWidth: 1)
+           )
+       }
+    
+    private func loadRealtimeData() {
+        let ref = Database.database(
+            url: "https://tuinmeister-9352f-default-rtdb.europe-west1.firebasedatabase.app"
+        ).reference()
+
+        ref.child("devices").child(device.deviceName).observe(.value) { snapshot in
+            if let dict = snapshot.value as? [String: Any] {
+                self.soilMoisture = dict["soilMoisture"] as? Int ?? 0
+                self.humidity = dict["humidity"] as? Int ?? 0
+                self.uvLevel = dict["uvLevel"] as? Double ?? 0.0
+            }
+        }
     }
     
     private func loadDeviceDetail() {

@@ -19,7 +19,8 @@ final class DeviceListViewModel: ObservableObject {
                             id: doc.documentID,
                             customName: data["custom_name"] as? String ?? "",
                             imageUrl:   data["imageUrl"]   as? String ?? "",
-                            deviceName: doc.documentID
+                            deviceName: doc.documentID,
+                            plantDate: (data["plantDate"] as? Timestamp)?.dateValue() ?? Date()
                         )
                     }
                 print("Loaded \(self.devices.count) devices")
