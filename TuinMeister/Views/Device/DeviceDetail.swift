@@ -14,6 +14,7 @@ struct DeviceDetailView: View {
     @State private var soilMoisture: Int = 0
     @State private var humidity: Int = 0
     @State private var uvLevel: Double = 0.0
+    @State private var careLevel: String = ""
     
     private var typeFirstWord: String {
         typeText.split(separator: " ").first.map(String.init) ?? typeText
@@ -182,6 +183,15 @@ struct DeviceDetailView: View {
                     self.typeText = data["type"] as? String ?? ""
                     if let ts = data["plantDate"] as? Timestamp {
                         self.plantDate = ts.dateValue()
+                    }
+                    
+                    let plantName = data["plantName"] as? String ?? ""
+                    Firestore.firestore().collection("plants").document(plantName).getDocument { doc, _ in
+                        if let plantData = doc?.data() {
+                            self.careLevel = plantData["careLevel"] as? String ?? ""
+                        } else {
+                            self.careLevel = ""
+                        }
                     }
                 }
     }
