@@ -15,6 +15,7 @@ struct DeviceDetailView: View {
     @State private var humidity: Int = 0
     @State private var uvLevel: Double = 0.0
     @State private var careLevel: String = ""
+    @State private var waterGiven = false
     
     private var typeFirstWord: String {
         typeText.split(separator: " ").first.map(String.init) ?? typeText
@@ -26,7 +27,30 @@ struct DeviceDetailView: View {
             .year ?? 0
         return "\(max(0, years)) jaar"
     }
+    
+    private var waterAdvice: String? {
+        guard !waterGiven, !careLevel.isEmpty else { return nil }
 
+        let threshold: Int = {
+            switch careLevel.lowercased() {
+            case "high": return 50
+            case "low": return 20
+            default: return 35
+            }
+        }()
+
+        if soilMoisture < threshold {
+            let amount: Int = {
+                switch careLevel.lowercased() {
+                case "high": return 250
+                case "low": return 100
+                default: return 200
+                }
+            }()
+            return "Heeft \(amount)ml water nodig!"
+        }
+        return nil
+    }
 
     var body: some View {
         VStack(spacing: 0) {
@@ -115,6 +139,62 @@ struct DeviceDetailView: View {
                         }
                     }
                     .padding(.horizontal)
+                    
+                    // Needs of plant
+                    VStack(alignment: .leading, spacing: 12) {
+                        Text("Benodigdheden")
+                            .font(.headline)
+                            .foregroundColor(.primary)
+                        
+                        if careLevel.isEmpty {
+                            Text("Info voor deze plant is nog niet bekend. Wordt binnen 24h geüpdatet.")
+                                .font(.system(size: 12))
+                                .foregroundColor(.secondary)
+                                .frame(maxWidth: .infinity, alignment: .leading)
+                        } else if let advice = waterAdvice {
+                            HStack(spacing: 12) {
+                                HStack(spacing: 8) {
+                                    Image(systemName: "drop.fill")
+                                        .resizable()
+                                        .scaledToFit()
+                                        .frame(width: 20, height: 20)
+                                        .foregroundColor(.orange)
+                                    
+                                    Text(advice)
+                                        .font(.system(size: 12))
+                                        .foregroundColor(.primary)
+                                }
+                                .padding(.horizontal, 12)
+                                .padding(.vertical, 8)
+                                .overlay(
+                                    RoundedRectangle(cornerRadius: 12)
+                                        .stroke(Color.primary, lineWidth: 1)
+                                )
+                                
+                                Button(action: {
+                                    waterGiven = true
+                                }) {
+                                    Text("Markeer als gedaan")
+                                        .font(.system(size: 12))
+                                        .foregroundColor(.primary)
+                                        .padding(.horizontal, 12)
+                                        .padding(.vertical, 8)
+                                        .overlay(
+                                            RoundedRectangle(cornerRadius: 12)
+                                                .stroke(Color.primary, lineWidth: 1)
+                                        )
+                                }
+                            }
+                        } else {
+                            Text("Jouw plant heeft momenteel niets nodig.")
+                                .font(.system(size: 12))
+                                .foregroundColor(.secondary)
+                                .frame(maxWidth: .infinity, alignment: .leading)
+                        }
+                    }
+                    .padding(.horizontal)
+                    .padding(.top, 32)
+                    .padding(.bottom, 32)
                     
                     // Stats section
                     VStack(alignment: .leading, spacing: 16) {
