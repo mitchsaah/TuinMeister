@@ -1,4 +1,6 @@
 import SwiftUI
+import FirebaseAuth
+import FirebaseFirestore
 
 struct DeviceDetailView: View {
     @Environment(\.dismiss) private var dismiss
@@ -110,5 +112,23 @@ struct DeviceDetailView: View {
                 }
             }
         }
+        .edgesIgnoringSafeArea(.bottom)
+        .onAppear(perform: loadDeviceDetail)
+    }
+    
+    private func loadDeviceDetail() {
+        guard let uid = Auth.auth().currentUser?.uid else { return }
+            Firestore.firestore()
+                .collection("users")
+                .document(uid)
+                .collection("devices")
+                .document(device.deviceName)
+                .getDocument { snap, err in
+                    guard let data = snap?.data(), err == nil else { return }
+                    self.typeText = data["type"] as? String ?? ""
+                    if let ts = data["plantDate"] as? Timestamp {
+                        self.plantDate = ts.dateValue()
+                    }
+                }
     }
 }

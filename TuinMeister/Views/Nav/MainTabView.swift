@@ -37,7 +37,7 @@ struct MainTabView: View {
             NavigationStack {
                     DashboardView()
                     .navigationDestination(for: Device.self) { device in
-                        Text("Detail voor \(device.customName)")
+                        DeviceDetailView(device: device)
                             .navigationBarBackButtonHidden(true)
                     }
                 }
