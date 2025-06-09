@@ -261,7 +261,7 @@ struct DeviceDetailView: View {
            .frame(maxWidth: .infinity, minHeight: 80)
            .background(
                RoundedRectangle(cornerRadius: 12)
-                   .stroke(Color.primary, lineWidth: 1)
+                   .stroke(color, lineWidth: 1)
            )
        }
     
