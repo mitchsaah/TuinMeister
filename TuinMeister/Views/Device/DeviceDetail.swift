@@ -1,6 +1,7 @@
 import SwiftUI
 import FirebaseAuth
 import FirebaseFirestore
+import FirebaseDatabase
 
 struct DeviceDetailView: View {
     @Environment(\.dismiss) private var dismiss
@@ -9,6 +10,10 @@ struct DeviceDetailView: View {
     
     @State private var typeText: String = ""
     @State private var plantDate: Date = Date()
+    
+    @State private var soilMoisture: Int = 0
+    @State private var humidity: Int = 0
+    @State private var uvLevel: Double = 0.0
     
     private var typeFirstWord: String {
         typeText.split(separator: " ").first.map(String.init) ?? typeText
