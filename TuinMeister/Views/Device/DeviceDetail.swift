@@ -123,9 +123,17 @@ struct DeviceDetailView: View {
                             .foregroundColor(.primary)
 
                         HStack(spacing: 12) {
-                            statBox(title: "Bodemvocht", value: "\(soilMoisture)%")
-                            statBox(title: "Luchtvocht.", value: "\(humidity)%")
-                            statBox(title: "UV's", value: "\(uvLevel)")
+                            if careLevel.isEmpty {
+                                statBox(title: "Bodemvocht", value: "\(soilMoisture)%", color: .gray)
+                                statBox(title: "Luchtvocht.", value: "\(humidity)%", color: .gray)
+                                statBox(title: "UV's", value: "\(uvLevel)", color: .gray)
+                            } else {
+                                let soilThresholds = getSoilThresholds(for: careLevel)
+                                let uvThresholds = getUVThresholds()
+                                statBox(title: "Bodemvocht", value: "\(soilMoisture)%", color: getColor(for: soilMoisture, thresholds: soilThresholds))
+                                statBox(title: "Luchtvocht.", value: "\(humidity)%", color: getColor(for: humidity, thresholds: (25, 50)))
+                                statBox(title: "UV's", value: "\(uvLevel)", color: getColor(for: uvLevel, thresholds: uvThresholds))
+                            }
                         }
                     }
                     .padding(.horizontal)
@@ -154,8 +162,13 @@ struct DeviceDetailView: View {
         }
     }
     
+    private func getUVThresholds() -> (low: Double, high: Double) {
+        let isIndoor = typeText.lowercased().contains("indoor")
+        return isIndoor ? (1.5, 3.0) : (3.0, 6.0)
+    }
+
     @ViewBuilder
-       func statBox(title: String, value: String) -> some View {
+       func statBox(title: String, value: String, color: Color) -> some View {
            VStack(spacing: 4) {
                Text(title)
                    .font(.caption)
