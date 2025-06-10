@@ -5,12 +5,14 @@ struct ArchivedPlantCardView: View {
 
     var body: some View {
         HStack(spacing: 12) {
+            // Static image
             Image(systemName: "leaf")
                 .resizable()
                 .scaledToFit()
                 .frame(width: 80, height: 80)
                 .foregroundColor(.gray)
             
+            // Text info
             VStack(alignment: .leading, spacing: 4) {
                 Text(plant.name)
                     .font(.headline)
@@ -27,6 +29,8 @@ struct ArchivedPlantCardView: View {
                         .font(.caption)
                 }
             }
+            
+            Spacer()
         }
     }
 }
