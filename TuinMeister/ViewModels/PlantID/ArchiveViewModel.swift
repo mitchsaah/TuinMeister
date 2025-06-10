@@ -24,4 +24,27 @@ final class ArchiveViewModel: ObservableObject {
                 }
             }
     }
+    
+    func addToArchive(_ plant: ArchivedPlant) {
+        guard let uid = uid else { return }
+        let ref = db
+            .collection("users")
+            .document(uid)
+            .collection("archive")
+            .document(plant.id)
+            
+        do {
+            try ref.setData(from: plant) { error in
+                if let error = error {
+                    print("Archive write failed:", error)
+                } else {
+                    DispatchQueue.main.async {
+                        self.archived.append(plant)
+                    }
+                }
+            }
+        } catch {
+            print("Failed to encode ArchivedPlant:", error)
+        }
+    }
 }
