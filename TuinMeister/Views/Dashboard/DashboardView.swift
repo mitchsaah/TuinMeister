@@ -6,14 +6,21 @@ struct DashboardView: View {
     @StateObject private var locationManager = LocationManager()
     @StateObject private var deviceVM = DeviceListViewModel() 
     
+    @State private var showingSettings = false
+    
     var body: some View {
         ScrollView(.vertical, showsIndicators: false) {
             VStack (alignment: .leading, spacing: 16) {
                 
                 // Top nav + logo
                 HStack {
-                    Image(systemName: "line.3.horizontal")
-                        .font(.title2)
+                    Button {
+                        showingSettings = true
+                    } label: {
+                        Image(systemName: "line.3.horizontal")
+                            .font(.title2)
+                    }
+                    .buttonStyle(.plain)
                     Spacer()
                     Image("tm-logo")
                         .resizable()
@@ -132,6 +139,11 @@ struct DashboardView: View {
             }
             .onReceive(locationManager.$location.compactMap { $0 }) { location in
                 viewModel.fetchWeather(for: location)
+            }
+            .sheet(isPresented: $showingSettings) {
+                NavigationStack {
+                    SettingsView()
+                }
             }
             .navigationBarHidden(true)
         }
