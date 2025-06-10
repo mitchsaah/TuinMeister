@@ -2,6 +2,8 @@ import SwiftUI
 
 struct ArchivedPlantCardView: View {
     let plant: ArchivedPlant
+    
+    private let accentGreen = Color(hex: 0x7FC241)
 
     var body: some View {
         HStack(spacing: 12) {
@@ -32,5 +34,11 @@ struct ArchivedPlantCardView: View {
             
             Spacer()
         }
+        .padding()
+        .background(
+            RoundedRectangle(cornerRadius: 12)
+                .stroke(accentGreen, lineWidth: 1.5)
+        )
+        .padding(.horizontal)
     }
 }
