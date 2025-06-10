@@ -4,6 +4,14 @@ struct ArchivedPlantCardView: View {
     let plant: ArchivedPlant
 
     var body: some View {
-        Text(plant.name)
+        HStack(spacing: 12) {
+            Image(systemName: "leaf")
+                .resizable()
+                .scaledToFit()
+                .frame(width: 80, height: 80)
+                .foregroundColor(.gray)
+            
+            Text(plant.name)
+        }
     }
 }
