@@ -1,9 +1,13 @@
 import SwiftUI
 import FirebaseAuth
+import CoreLocation
 
 struct ProfileView: View {
     @State private var firstName = ""
     @State private var lastName  = ""
+    
+    @State private var location  = ""
+    @StateObject private var locationManager = LocationManager()
     
     var body: some View {
         NavigationStack {
@@ -19,15 +23,23 @@ struct ProfileView: View {
                 )
                 .padding(.top)
             
-            // User's name
+            // User's name + location
             VStack {
                 Text("\(firstName) \(lastName)")
                     .font(.title2).fontWeight(.semibold)
                 
-                Spacer()
+                Text(location)
+                    .font(.subheadline)
+                    .foregroundColor(.secondary)
             }
-            .navigationTitle("Profiel")
             .onAppear(perform: loadProfile)
+            .onReceive(locationManager.$location.compactMap { $0 }) { loc in
+                lookupPlacemark(from: loc) { pm in
+                    if let pc = pm?.postalCode, let city = pm?.locality {
+                        location = "\(pc) \(city)"
+                    }
+                }
+            }
         }
     }
     
@@ -39,5 +51,14 @@ struct ProfileView: View {
             firstName = parts.first ?? ""
             lastName  = parts.dropFirst().joined(separator: " ")
         }
+    }
+}
+
+fileprivate func lookupPlacemark(
+    from location: CLLocation,
+    completion: @escaping (CLPlacemark?) -> Void
+) {
+    CLGeocoder().reverseGeocodeLocation(location) { places, _ in
+        completion(places?.first)
     }
 }
