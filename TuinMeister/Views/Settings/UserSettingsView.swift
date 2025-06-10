@@ -23,9 +23,18 @@ struct UserSettingsView: View {
 
         Color.clear.frame(width: 44, height: 44)
       }
-      .padding()
-      .background(Color(UIColor.systemBackground))
-      .navigationBarHidden(true)
+      .padding(.horizontal)
+      .padding(.top, 8)
+        
+        // Profile picture placeholder
+        Circle()
+            .fill(Color.gray.opacity(0.3))
+            .frame(width: 120, height: 120)
+            .overlay(
+                Image(systemName: "person.fill")
+                    .font(.largeTitle)
+                    .foregroundColor(.white)
+            )
 
       Spacer()
       // Placeholder content
@@ -33,5 +42,6 @@ struct UserSettingsView: View {
         .foregroundColor(.secondary)
       Spacer()
     }
+    .navigationBarBackButtonHidden(true)
   }
 }
