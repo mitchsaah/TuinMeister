@@ -14,6 +14,21 @@ struct SettingsView: View {
             .frame(height: 44)
             .padding(.horizontal)
             .padding(.top, 8)
+            
+            // Navigation to user settings
+            NavigationLink {
+                UserSettingsView()
+            } label: {
+                HStack {
+                    Text("Gebruikersinstellingen")
+                        .foregroundColor(.primary)
+                    Spacer()
+                    Image(systemName: "chevron.right")
+                        .foregroundColor(.secondary)
+                }
+                .padding()
+            }
+            .buttonStyle(.plain)
         }
     }
 }
