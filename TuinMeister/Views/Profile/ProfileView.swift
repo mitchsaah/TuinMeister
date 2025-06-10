@@ -3,11 +3,19 @@ import FirebaseAuth
 import CoreLocation
 
 struct ProfileView: View {
+    @State private var selectedTab: Tab = .garden
     @State private var firstName = ""
     @State private var lastName  = ""
     
     @State private var location  = ""
     @StateObject private var locationManager = LocationManager()
+    
+    private let accentGreen = Color(hex: 0x7FC241)
+    
+    enum Tab: String, CaseIterable {
+        case garden = "Mijn Tuin"
+        case archive = "Groen Archief"
+    }
     
     var body: some View {
         NavigationStack {
@@ -32,6 +40,23 @@ struct ProfileView: View {
                     .font(.subheadline)
                     .foregroundColor(.secondary)
             }
+            
+            // Tab selector
+            HStack {
+                ForEach(Tab.allCases, id: \.self) { tab in
+                    VStack(spacing: 4) {
+                        Button(tab.rawValue) { selectedTab = tab }
+                            .font(.headline)
+                            .foregroundColor(selectedTab == tab ? accentGreen : .primary)
+                        Rectangle()
+                            .fill(selectedTab == tab ? accentGreen : .clear)
+                            .frame(height: 2)
+                    }
+                    .frame(maxWidth: .infinity)
+                }
+            }
+            .padding(.horizontal)
+
             .onAppear(perform: loadProfile)
             .onReceive(locationManager.$location.compactMap { $0 }) { loc in
                 lookupPlacemark(from: loc) { pm in
