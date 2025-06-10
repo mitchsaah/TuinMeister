@@ -58,10 +58,17 @@ struct UserSettingsView: View {
 
 
       Spacer()
-      // Placeholder content
-      Text("Dit is de gebruikersinstellingen-pagina")
-        .foregroundColor(.secondary)
-      Spacer()
+    // Save user settings-button
+        Button(action: saveProfile) {
+            Text("Instellingen opslaan")
+                .font(.headline)
+                .foregroundColor(.white)
+                .frame(maxWidth: .infinity, minHeight: 50)
+                .background(accentGreen)
+                .cornerRadius(25)
+                .padding(.horizontal)
+        }
+        .padding(.bottom, 16)
     }
     .navigationBarBackButtonHidden(true)
     .onAppear(perform: loadProfile)
@@ -69,6 +76,15 @@ struct UserSettingsView: View {
     private func loadProfile() {
         if let user = Auth.auth().currentUser {
             displayName = user.displayName ?? ""
+        }
+    }
+    
+    private func saveProfile() {
+        guard !displayName.isEmpty else { return }
+        let changeRequest = Auth.auth().currentUser?.createProfileChangeRequest()
+        changeRequest?.displayName = displayName
+        changeRequest?.commitChanges { _ in
+            dismiss()
         }
     }
 }
