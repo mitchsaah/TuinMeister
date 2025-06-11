@@ -3,6 +3,7 @@ import SwiftUI
 struct ArchivedPlantDetailView: View {
     @Environment(\.dismiss) private var dismiss
     let plant: ArchivedPlant
+    @EnvironmentObject var archiveVM: ArchiveViewModel
     
     private let accentGreen = Color(hex: 0x7FC241)
     
@@ -100,5 +101,21 @@ struct ArchivedPlantDetailView: View {
             }
         }
         .navigationBarBackButtonHidden(true)
+        
+        .safeAreaInset(edge: .bottom) {
+            Button {
+                archiveVM.removeFromArchive(plant)
+                dismiss()
+            } label: {
+                Text("Verwijderen uit archief")
+                    .font(.headline)
+                    .foregroundColor(.white)
+                    .frame(maxWidth: .infinity, minHeight: 44)
+                    .background(Color.red)
+                    .cornerRadius(22)
+            }
+            .padding(.horizontal)
+            .padding(.bottom, 12)
+        }
     }
 }
