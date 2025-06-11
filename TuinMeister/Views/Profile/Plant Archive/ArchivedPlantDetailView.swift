@@ -41,6 +41,38 @@ struct ArchivedPlantDetailView: View {
                     .foregroundColor(accentGreen)
                     .frame(maxWidth: .infinity)
                     .padding(.top, 12)
+                
+                HStack {
+                    VStack(alignment: .leading) {
+                        Text("Familie")
+                            .font(.caption)
+                            .foregroundColor(.secondary)
+                        Text(plant.family ?? "Onbekend")
+                            .font(.subheadline)
+                            .fontWeight(.semibold)
+                            .foregroundColor(.primary)
+                    }
+                    Spacer()
+                    VStack {
+                        Text("Toegevoegd op")
+                            .font(.caption)
+                            .foregroundColor(.secondary)
+                        Text(plant.dateAdded.formatted(date: .abbreviated, time: .omitted))
+                            .font(.subheadline)
+                            .fontWeight(.semibold)
+                            .foregroundColor(.primary)
+                    }
+                    Spacer()
+                    VStack(alignment: .trailing) {
+                        Text("Onderhoud")
+                            .font(.caption)
+                            .foregroundColor(.secondary)
+                        Text(plant.maintenance ?? "–")
+                            .font(.subheadline)
+                            .fontWeight(.semibold)
+                            .foregroundColor(.primary)
+                    }
+                }
             }
         }
     }
