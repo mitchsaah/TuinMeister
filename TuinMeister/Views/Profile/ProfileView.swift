@@ -11,6 +11,8 @@ struct ProfileView: View {
     @StateObject private var locationManager = LocationManager()
     @StateObject private var deviceVM = DeviceListViewModel()
     
+    @EnvironmentObject private var archiveVM: ArchiveViewModel
+    
     private let accentGreen = Color(hex: 0x7FC241)
     
     enum Tab: String, CaseIterable {
@@ -77,9 +79,8 @@ struct ProfileView: View {
                         .onAppear { deviceVM.fetchDevices() }
                         
                     case .archive:
-                        // "Groen Archief" placeholder
-                        Text("Saved plant cards here")
-                            .frame(maxWidth: .infinity, maxHeight: .infinity)
+                        PlantArchiveView()
+                            .environmentObject(archiveVM)
                     }
                 }
                 .animation(.easeInOut, value: selectedTab)

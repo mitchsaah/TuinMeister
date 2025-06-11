@@ -47,6 +47,7 @@ struct ScannerView: View {
             Group {
                 if let suggestion {
                     PlantOverlayView(suggestion: suggestion)
+                        .environmentObject(ArchiveViewModel.shared)
                 } else {
                     Text("Geen plant gevonden")
                 }

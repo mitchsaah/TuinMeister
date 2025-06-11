@@ -53,6 +53,7 @@ struct MainTabView: View {
                 }
             
             ProfileView()
+                .environmentObject(ArchiveViewModel.shared)
                 .tabItem {
                     Image(systemName: "person")
                     Text("Profiel")
