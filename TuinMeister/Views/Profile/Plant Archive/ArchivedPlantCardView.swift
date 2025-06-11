@@ -6,7 +6,7 @@ struct ArchivedPlantCardView: View {
     private let accentGreen = Color(hex: 0x7FC241)
 
     var body: some View {
-        HStack(spacing: 12) {
+        HStack(spacing: 24) {
             // Static image
             Image(systemName: "leaf")
                 .resizable()

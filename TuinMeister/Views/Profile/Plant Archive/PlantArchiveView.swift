@@ -5,8 +5,8 @@ struct PlantArchiveView: View {
 
   var body: some View {
     ScrollView(.vertical, showsIndicators: false) {
-      VStack(spacing: 16) {
-        ForEach(archiveVM.archived) { plant in
+        VStack(spacing: 16) {
+            ForEach(archiveVM.archived.sorted(by: { $0.dateAdded > $1.dateAdded })) { plant in
           NavigationLink(value: plant) {
             ArchivedPlantCardView(plant: plant)
           }
