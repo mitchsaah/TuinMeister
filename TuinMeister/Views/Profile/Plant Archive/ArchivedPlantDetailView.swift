@@ -4,6 +4,8 @@ struct ArchivedPlantDetailView: View {
     @Environment(\.dismiss) private var dismiss
     let plant: ArchivedPlant
     
+    private let accentGreen = Color(hex: 0x7FC241)
+    
     var body: some View {
         HStack {
             // Custom Nav
@@ -28,5 +30,18 @@ struct ArchivedPlantDetailView: View {
         }
         .padding(.horizontal)
         .padding(.top, 8)
+        
+        ScrollView {
+            VStack(alignment: .leading, spacing: 24) {
+                // Static image
+                Image(systemName: "leaf")
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 100, height: 100)
+                    .foregroundColor(accentGreen)
+                    .frame(maxWidth: .infinity)
+                    .padding(.top, 12)
+            }
+        }
     }
 }
