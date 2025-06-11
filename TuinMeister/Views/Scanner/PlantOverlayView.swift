@@ -44,18 +44,28 @@ struct PlantOverlayView: View {
                 
                 HStack {
                     VStack(alignment: .leading) {
-                        Text("Familie").bold()
+                        Text("Familie")
+                            .font(.caption)
+                            .foregroundColor(.secondary)
                         Text(suggestion.plantDetails.taxonomy?.family ?? "Onbekend")
+                            .font(.subheadline).fontWeight(.semibold)
+                            .foregroundColor(.primary)
                     }
                     Spacer()
-                    VStack(alignment: .leading) {
-                        Text("Onderhoud").bold()
+                    VStack(alignment: .trailing) {
+                        Text("Onderhoud")
+                            .font(.caption)
+                            .foregroundColor(.secondary)
                         Text(mapMaintenance(suggestion.plantDetails.watering))
+                            .font(.subheadline).fontWeight(.semibold)
+                            .foregroundColor(.primary)
                     }
                 }
+                .padding(.bottom, 16)
                 
                 VStack(alignment: .leading, spacing: 6) {
-                    Text("Beschrijving").bold()
+                    Text("Beschrijving")
+                        .font(.headline)
 
                     let description = suggestion.plantDetails.wikiDescription?.value?.trimmingCharacters(in: .whitespacesAndNewlines)
 
@@ -74,6 +84,7 @@ struct PlantOverlayView: View {
                 }
             }
         }
+        .padding(.horizontal)
         
         .safeAreaInset(edge: .bottom) {
             Button {
