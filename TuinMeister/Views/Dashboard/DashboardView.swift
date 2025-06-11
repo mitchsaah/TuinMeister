@@ -178,6 +178,10 @@ struct DashboardView: View {
             }
             .navigationBarHidden(true)
         }
+        .navigationDestination(for: ArchivedPlant.self) { plant in
+            ArchivedPlantDetailView(plant: plant)
+                .navigationBarBackButtonHidden(true)
+        }
     }
 }
 
