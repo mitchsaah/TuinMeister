@@ -16,5 +16,6 @@ struct PlantArchiveView: View {
       .padding(.vertical)
       .onAppear { archiveVM.fetchArchive() }
     }
+    .padding(.horizontal)
   }
 }

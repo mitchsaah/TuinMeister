@@ -34,11 +34,11 @@ struct ArchivedPlantCardView: View {
             
             Spacer()
         }
+        .frame(maxWidth: .infinity)
         .padding()
         .background(
             RoundedRectangle(cornerRadius: 12)
                 .stroke(accentGreen, lineWidth: 1.5)
         )
-        .padding(.horizontal)
     }
 }

@@ -5,6 +5,7 @@ struct DashboardView: View {
     @StateObject private var viewModel = WeatherViewModel()
     @StateObject private var locationManager = LocationManager()
     @StateObject private var deviceVM = DeviceListViewModel() 
+    @EnvironmentObject var archiveVM: ArchiveViewModel
     
     @State private var showingSettings = false
     
@@ -98,40 +99,70 @@ struct DashboardView: View {
                 .padding(.bottom, 24)
                 
                 // Groen Archief
-                HStack {
-                    HStack(spacing: 0) {
-                        Text("Groen")
-                            .foregroundColor(Color(hex: 0x7FC241))
-                        Text(" Archief")
-                            .foregroundColor(.primary)
+                VStack(alignment: .leading, spacing: 8) {
+                    HStack {
+                        HStack(spacing: 0) {
+                            Text("Groen")
+                                .foregroundColor(Color(hex: 0x7FC241))
+                            Text(" Archief")
+                                .foregroundColor(.primary)
+                        }
+                        .font(.system(size: 28, weight: .semibold))
+                        
+                        Spacer()
+                        
+                        // Scanner button
+                        Button(action: {
+                        }) {
+                            Image(systemName: "viewfinder")
+                                .font(.system(size: 16, weight: .bold))
+                                .foregroundColor(.white)
+                                .padding(.horizontal, 8)
+                                .frame(height: 40)
+                                .background(Color(hex: 0x89D152))
+                                .clipShape(RoundedRectangle(cornerRadius: 12))
+                        }
                     }
-                    .font(.system(size: 28, weight: .semibold))
+                    // Subtext
+                    Text("Hier zie je uw meest recente scan.")
+                        .font(.subheadline)
+                        .foregroundColor(.gray)
+                        .padding(.bottom, 16)
 
-                    Spacer()
-
-                    // Scanner button
-                    Button(action: {
-                    }) {
-                        Image(systemName: "viewfinder")
-                            .font(.system(size: 16, weight: .bold))
-                            .foregroundColor(.white)
-                            .padding(.horizontal, 8)
-                            .frame(height: 40)
-                            .background(Color(hex: 0x89D152))
-                            .clipShape(RoundedRectangle(cornerRadius: 12))
+                    // Content
+                    if let latest = archiveVM.archived.sorted(by: { $0.dateAdded > $1.dateAdded }).first {
+                        NavigationLink(value: latest) {
+                            ArchivedPlantCardView(plant: latest)
+                        }
+                        .buttonStyle(.plain)
+                        .frame(maxWidth: .infinity)
+                    } else {
+                        VStack(spacing: 8) {
+                            Image(systemName: "viewfinder")
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: 40, height: 40)
+                                .foregroundColor(.gray.opacity(0.5))
+                                
+                            Text("Maak je eerste scan.")
+                                .foregroundColor(.gray)
+                                .font(.subheadline)
+                        }
+                        .frame(maxWidth: .infinity)
+                        .padding(.vertical, 24)
                     }
                 }
                 .padding(.horizontal, 8)
-                .padding(.bottom, 48)
+                .padding(.bottom, 24)
                 
                 // News Section
                 NewsSection()
-                    .padding(.top, 24)
 
                 Spacer()
             }
             .padding(.horizontal, 8)
             .onAppear {
+                archiveVM.fetchArchive()
                 deviceVM.fetchDevices()
                 if let location = locationManager.location {
                     viewModel.fetchWeather(for: location)

@@ -36,6 +36,7 @@ struct MainTabView: View {
             
             NavigationStack {
                     DashboardView()
+                    .environmentObject(ArchiveViewModel.shared)
                     .navigationDestination(for: Device.self) { device in
                         DeviceDetailView(device: device)
                             .navigationBarBackButtonHidden(true)
@@ -48,7 +49,7 @@ struct MainTabView: View {
             
             ScannerView()
                 .tabItem {
-                    Image(systemName: "qrcode.viewfinder")
+                    Image(systemName: "viewfinder")
                     Text("Scanner")
                 }
             
