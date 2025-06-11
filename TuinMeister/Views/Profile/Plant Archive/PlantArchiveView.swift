@@ -7,7 +7,7 @@ struct PlantArchiveView: View {
     ScrollView(.vertical, showsIndicators: false) {
         VStack(spacing: 16) {
             ForEach(archiveVM.archived.sorted(by: { $0.dateAdded > $1.dateAdded })) { plant in
-          NavigationLink(value: plant) {
+          NavigationLink(destination: ArchivedPlantDetailView(plant: plant)) {
             ArchivedPlantCardView(plant: plant)
           }
           .buttonStyle(.plain)
