@@ -88,11 +88,15 @@ struct PlantOverlayView: View {
         
         .safeAreaInset(edge: .bottom) {
             Button {
+                let desc = suggestion.plantDetails.wikiDescription?.value?.trimmingCharacters(in: .whitespacesAndNewlines)
+                let fallbackURL = suggestion.plantDetails.url
                 let plant = ArchivedPlant(
                     id: suggestion.plantName,
                     name: suggestion.plantName,
                     family: suggestion.plantDetails.taxonomy?.family,
                     maintenance: mapMaintenance(suggestion.plantDetails.watering),
+                    description: desc,
+                    fallbackURL: fallbackURL,
                     dateAdded: Date()
                 )
                 archiveVM.addToArchive(plant)
