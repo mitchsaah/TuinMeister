@@ -2,7 +2,10 @@ import SwiftUI
 
 struct PlantOverlayView: View {
     let suggestion: Suggestion
+    private let accentGreen = Color(hex: 0x7FC241)
+    
     @Environment(\.dismiss) var dismiss
+    @EnvironmentObject private var archiveVM: ArchiveViewModel
 
     var body: some View {
         ScrollView {
@@ -70,7 +73,28 @@ struct PlantOverlayView: View {
                     }
                 }
             }
-            .padding()
+        }
+        
+        .safeAreaInset(edge: .bottom) {
+            Button {
+                let plant = ArchivedPlant(
+                    id: suggestion.plantName,
+                    name: suggestion.plantName,
+                    family: suggestion.plantDetails.taxonomy?.family,
+                    maintenance: mapMaintenance(suggestion.plantDetails.watering),
+                    dateAdded: Date()
+                )
+                archiveVM.addToArchive(plant)
+                dismiss()
+            } label: {
+                Text("Opslaan in archief")
+                    .font(.headline)
+                    .foregroundColor(.white)
+                    .frame(maxWidth: .infinity, minHeight: 44)
+                    .background(accentGreen)
+                    .cornerRadius(22)
+            }
+            .padding(.horizontal)
         }
     }
     
