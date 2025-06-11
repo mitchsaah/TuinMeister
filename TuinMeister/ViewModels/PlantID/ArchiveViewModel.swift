@@ -47,4 +47,21 @@ final class ArchiveViewModel: ObservableObject {
             print("Failed to encode ArchivedPlant:", error)
         }
     }
+    
+    func removeFromArchive(_ plant: ArchivedPlant) {
+        guard let uid = uid else { return }
+        db.collection("users")
+            .document(uid)
+            .collection("archive")
+            .document(plant.id)
+            .delete { error in
+                if let error = error {
+                    print("Error deleting archived plant: \(error)")
+                } else {
+                    DispatchQueue.main.async {
+                        self.archived.removeAll { $0.id == plant.id }
+                    }
+                }
+            }
+    }
 }
