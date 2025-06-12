@@ -46,4 +46,14 @@ final class AppState: ObservableObject {
                 }
             }
         }
+    
+    func signOut() {
+        do {
+            try Auth.auth().signOut()
+            self.user = nil
+            self.didFinishSetup = false
+        } catch {
+            print("[AppState] Error when logging out: \(error.localizedDescription)")
+        }
+    }
 }
