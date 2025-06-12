@@ -3,6 +3,7 @@ import FirebaseAuth
 
 struct SettingsView: View {
     @State private var showingLogoutConfirmation = false
+    @EnvironmentObject var appState: AppState
 
     var body: some View {
         VStack {
@@ -51,7 +52,7 @@ struct SettingsView: View {
                 titleVisibility: .visible
             ) {
                 Button("Uitloggen", role: .destructive) {
-                    try? Auth.auth().signOut()
+                    appState.signOut()
                 }
                 Button("Annuleren", role: .cancel) { }
             }
