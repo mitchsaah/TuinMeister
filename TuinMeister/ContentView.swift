@@ -9,10 +9,7 @@ struct ContentView: View {
                 AuthView()
 
             } else if !appState.didFinishSetup {
-                ConnectionFlowView {
-                    appState.didFinishSetup = true
-                }
-                .navigationBarHidden(true)
+                LoadingScreenView()
 
             } else {
                 MainTabView()
