@@ -38,9 +38,12 @@ class CameraViewModel: NSObject, ObservableObject {
         session.addOutput(output)
 
         session.commitConfiguration()
-        session.startRunning()
-        DispatchQueue.main.async {
-            self.isReady = true
+        DispatchQueue.global(qos: .userInitiated).async {
+            self.session.startRunning()
+            
+            DispatchQueue.main.async {
+                self.isReady = true
+            }
         }
     }
 }
