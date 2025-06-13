@@ -5,6 +5,19 @@ import FirebaseDatabase
 
 class NotificationManager: ObservableObject {
     @Published var notifications: [NotificationItem] = []
+    private var timer: Timer?
+    
+    init() {
+        // For now 10s to check (later = every 4hrs)
+        timer = Timer.scheduledTimer(withTimeInterval: 10, repeats: true) { _ in
+            self.checkAllDevicesForWaterAdvice()
+        }
+    }
+        
+    deinit {
+        timer?.invalidate()
+    }
+
 
     private let db = Firestore.firestore()
     private let rtdb = Database.database(
