@@ -8,8 +8,7 @@ class NotificationManager: ObservableObject {
     private var timer: Timer?
     
     init() {
-        // For now 10s to check (later = every 4hrs)
-        timer = Timer.scheduledTimer(withTimeInterval: 10, repeats: true) { _ in
+        timer = Timer.scheduledTimer(withTimeInterval: 14400, repeats: true) { _ in
             self.checkAllDevicesForWaterAdvice()
         }
     }
@@ -84,7 +83,7 @@ class NotificationManager: ObservableObject {
                         let now = Date().timeIntervalSince1970
                         let lastSent = UserDefaults.standard.double(forKey: lastAdviceKey)
 
-                        if now - lastSent < 10 { return } // For now 10s to check (later = every 4hrs)
+                        if now - lastSent < 14400 { return }
                         
                         self.rtdb.child("devices").child(deviceName).observeSingleEvent(of: .value) { snapshot in
                             if let values = snapshot.value as? [String: Any],
