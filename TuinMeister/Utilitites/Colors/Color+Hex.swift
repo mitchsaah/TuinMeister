@@ -11,4 +11,5 @@ extension Color {
             opacity: opacity
         )
     }
+    static let accentGreen = Color(hex: 0x89D152)
 }

@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct LoadingScreenView: View {
-    static let accentGreen = Color(hex: 0x00C853)
+    static let accentGreen = Color(hex: 0x89D152)
     
     var body: some View {
         VStack(spacing: 24) {

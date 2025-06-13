@@ -3,7 +3,7 @@ import FirebaseAuth
 
 // Branding color shortcuts
 private let backgroundGray = Color(hex: 0xE0E0E0)  // #E0E0E0
-private let accentGreen    = Color(hex: 0x89D152)  // #89D152
+private let accentGreen    = Color(hex: 0x7FC241)  // #89D152
 
 struct AuthView: View {
     @ObservedObject private var vm = AuthViewModel()
