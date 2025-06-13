@@ -35,6 +35,20 @@ struct NotificationRow: View {
                         .foregroundColor(accentGreen)
                 }
             }
+            // Plant name + Message
+            VStack(alignment: .leading, spacing: 4) {
+                Text(customName)
+                    .font(.subheadline)
+                    .foregroundColor(accentGreen)
+                    .bold()
+                
+                Text(message)
+                    .font(.body)
+                    .foregroundColor(.primary)
+                    .multilineTextAlignment(.leading)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+            }
+            .frame(maxWidth: .infinity, alignment: .leading)
         }
     }
 }
