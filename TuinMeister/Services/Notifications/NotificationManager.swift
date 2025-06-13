@@ -72,6 +72,12 @@ class NotificationManager: ObservableObject {
                         let lastSent = UserDefaults.standard.double(forKey: lastAdviceKey)
 
                         if now - lastSent < 10 { return } // For now 10s to check (later = every 4hrs)
+                        
+                        self.rtdb.child("devices").child(deviceName).observeSingleEvent(of: .value) { snapshot in
+                            if let values = snapshot.value as? [String: Any],
+                               let soilMoisture = values["soilMoisture"] as? Int {
+                            }
+                        }
                     }
                 }
             }
