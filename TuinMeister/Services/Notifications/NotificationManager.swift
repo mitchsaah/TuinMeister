@@ -93,6 +93,21 @@ class NotificationManager: ObservableObject {
                                         default: return 200
                                         }
                                     }()
+                                    
+                                    let message = "\(customName) heeft \(amount)ml water nodig!"
+                                    
+                                    self.db.collection("users")
+                                        .document(uid)
+                                        .collection("notifications")
+                                        .addDocument(data: [
+                                            "message": message,
+                                            "timestamp": Timestamp(date: Date()),
+                                            "isRead": false,
+                                            "customName": customName,
+                                            "imageUrl": imageUrl
+                                        ])
+                                    
+                                    UserDefaults.standard.set(now, forKey: lastAdviceKey)
                                 }
                             }
                         }
