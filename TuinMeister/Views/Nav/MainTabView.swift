@@ -4,6 +4,8 @@ import SwiftUI
 private let accentGreen = Color(hex: 0x89D152)
 
 struct MainTabView: View {
+    @StateObject private var notificationManager = NotificationManager()
+
     init() {
            let appearance = UITabBarAppearance()
            appearance.configureWithOpaqueBackground()
@@ -29,6 +31,7 @@ struct MainTabView: View {
     var body: some View {
         TabView {
             NotificationsView()
+                .environmentObject(notificationManager)
                 .tabItem {
                     Image(systemName: "exclamationmark.triangle")
                     Text("Meldingen")
@@ -59,6 +62,9 @@ struct MainTabView: View {
                     Image(systemName: "person")
                     Text("Profiel")
                 }
+        }
+        .onAppear {
+            notificationManager.checkAllDevicesForWaterAdvice()
         }
     }
 }
