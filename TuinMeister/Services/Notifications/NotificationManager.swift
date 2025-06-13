@@ -76,6 +76,24 @@ class NotificationManager: ObservableObject {
                         self.rtdb.child("devices").child(deviceName).observeSingleEvent(of: .value) { snapshot in
                             if let values = snapshot.value as? [String: Any],
                                let soilMoisture = values["soilMoisture"] as? Int {
+                                
+                                let threshold: Int = {
+                                    switch careLevel.lowercased() {
+                                    case "high": return 50
+                                    case "low": return 20
+                                    default: return 35
+                                    }
+                                }()
+
+                                if soilMoisture < threshold {
+                                    let amount: Int = {
+                                        switch careLevel.lowercased() {
+                                        case "high": return 250
+                                        case "low": return 100
+                                        default: return 200
+                                        }
+                                    }()
+                                }
                             }
                         }
                     }
