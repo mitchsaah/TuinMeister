@@ -37,6 +37,22 @@ struct NotificationsView: View {
                             imageUrl: notif.imageUrl
                         )
                     }
+                    
+                    // Old messages
+                    if hasRead {
+                        Text("Oude berichten")
+                            .font(.headline)
+                            .padding(.horizontal)
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                        
+                        ForEach(notificationManager.notifications.filter { $0.isRead }.prefix(5)) { notif in
+                            NotificationRow(
+                                message: notif.message,
+                                customName: notif.customName,
+                                imageUrl: notif.imageUrl
+                            )
+                        }
+                    }
                 }
                 .padding(.bottom)
             }
