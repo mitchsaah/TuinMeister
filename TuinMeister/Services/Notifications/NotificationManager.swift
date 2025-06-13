@@ -47,4 +47,23 @@ class NotificationManager: ObservableObject {
         }
         batch.commit()
     }
+    
+    func checkAllDevicesForWaterAdvice() {
+        guard let uid = Auth.auth().currentUser?.uid else { return }
+        
+        db.collection("users")
+            .document(uid)
+            .collection("devices")
+            .getDocuments { snapshot, error in
+                guard let docs = snapshot?.documents else { return }
+                
+                for doc in docs {
+                    let data = doc.data()
+                    let deviceName = doc.documentID
+                    let customName = data["custom_name"] as? String ?? deviceName
+                    let imageUrl = data["imageUrl"] as? String ?? ""
+                    let plantName = data["plantName"] as? String ?? ""
+                }
+            }
+    }
 }
