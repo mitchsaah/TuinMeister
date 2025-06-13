@@ -63,6 +63,10 @@ class NotificationManager: ObservableObject {
                     let customName = data["custom_name"] as? String ?? deviceName
                     let imageUrl = data["imageUrl"] as? String ?? ""
                     let plantName = data["plantName"] as? String ?? ""
+                    
+                    self.db.collection("plants").document(plantName).getDocument { snap, _ in
+                        let careLevel = snap?.data()?["careLevel"] as? String ?? ""
+                    }
                 }
             }
     }
