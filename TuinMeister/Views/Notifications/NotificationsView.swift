@@ -15,6 +15,17 @@ struct NotificationsView: View {
                             .font(.title2)
                             .bold()
                             .frame(maxWidth: .infinity, alignment: .center)
+                        if hasUnread {
+                            HStack {
+                                Spacer()
+                                Button("Markeren als gelezen") {
+                                    notificationManager.markAllAsRead()
+                                }
+                                .font(.subheadline)
+                                .foregroundColor(.black)
+                            }
+                            .padding(.trailing)
+                        }
                     }
                     .padding(.top, 16)
                 }
