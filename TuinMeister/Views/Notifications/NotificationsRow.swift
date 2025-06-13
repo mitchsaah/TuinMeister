@@ -49,6 +49,14 @@ struct NotificationRow: View {
                     .frame(maxWidth: .infinity, alignment: .leading)
             }
             .frame(maxWidth: .infinity, alignment: .leading)
+            
+            Spacer()
         }
+        .padding()
+        .background(
+            RoundedRectangle(cornerRadius: 16)
+                .stroke(Color.primary.opacity(0.2), lineWidth: 1)
+        )
+        .padding(.horizontal)
     }
 }
