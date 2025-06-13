@@ -10,7 +10,7 @@ final class AppState: ObservableObject {
             print("[AppState] user changed →", user?.uid ?? "nil")
         }
     }
-    @Published var didFinishSetup: Bool = false {
+    @Published var didFinishSetup: Bool? = nil {
         didSet {
             print("[AppState] didFinishSetup →", didFinishSetup)
         }
@@ -40,9 +40,9 @@ final class AppState: ObservableObject {
               .getDocuments { [weak self] snap, error in
                 guard let self = self else { return }
                 if let docs = snap?.documents, docs.count > 0 {
-                    self.didFinishSetup = true
+                    self.didFinishSetup = .some(true)
                 } else {
-                    self.didFinishSetup = false
+                    self.didFinishSetup = .some(false)
                 }
             }
         }
@@ -51,7 +51,7 @@ final class AppState: ObservableObject {
         do {
             try Auth.auth().signOut()
             self.user = nil
-            self.didFinishSetup = false
+            self.didFinishSetup = nil
         } catch {
             print("[AppState] Error when logging out: \(error.localizedDescription)")
         }

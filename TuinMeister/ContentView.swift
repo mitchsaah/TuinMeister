@@ -4,19 +4,24 @@ struct ContentView: View {
     @EnvironmentObject private var appState: AppState
     
     var body: some View {
-        Group {
+            content
+                .animation(.easeInOut, value: appState.didFinishSetup)
+        }
+
+        @ViewBuilder
+        private var content: some View {
             if appState.user == nil {
                 AuthView()
-
-            } else if !appState.didFinishSetup {
+            } else if appState.didFinishSetup == nil {
                 LoadingScreenView()
-
-            } else {
+            } else if appState.didFinishSetup == true {
                 MainTabView()
+            } else {
+                ConnectionFlowView {
+                    appState.didFinishSetup = true
+                }
             }
         }
-        .animation(.easeInOut, value: appState.didFinishSetup)
-    }
 }
 
 struct ContentView_Previews: PreviewProvider {
