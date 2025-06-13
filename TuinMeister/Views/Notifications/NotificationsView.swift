@@ -18,6 +18,7 @@ struct NotificationsView: View {
                         if hasUnread {
                             HStack {
                                 Spacer()
+                                // Has read button
                                 Button("Markeren als gelezen") {
                                     notificationManager.markAllAsRead()
                                 }
@@ -28,6 +29,14 @@ struct NotificationsView: View {
                         }
                     }
                     .padding(.top, 16)
+                    
+                    ForEach(notificationManager.notifications.filter { !$0.isRead }) { notif in
+                        NotificationRow(
+                            message: notif.message,
+                            customName: notif.customName,
+                            imageUrl: notif.imageUrl
+                        )
+                    }
                 }
                 .padding(.bottom)
             }
