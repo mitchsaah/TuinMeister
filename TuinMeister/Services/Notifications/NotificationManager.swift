@@ -66,6 +66,12 @@ class NotificationManager: ObservableObject {
                     
                     self.db.collection("plants").document(plantName).getDocument { snap, _ in
                         let careLevel = snap?.data()?["careLevel"] as? String ?? ""
+                        
+                        let lastAdviceKey = "lastAdvice_\(deviceName)"
+                        let now = Date().timeIntervalSince1970
+                        let lastSent = UserDefaults.standard.double(forKey: lastAdviceKey)
+
+                        if now - lastSent < 10 { return } // For now 10s to check (later = every 4hrs)
                     }
                 }
             }
