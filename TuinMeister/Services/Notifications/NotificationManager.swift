@@ -33,4 +33,18 @@ class NotificationManager: ObservableObject {
                 }
             }
     }
+    
+    func markAllAsRead() {
+        guard let uid = Auth.auth().currentUser?.uid else { return }
+        
+        let batch = db.batch()
+        notifications.filter { !$0.isRead }.forEach { notif in
+            let ref = db.collection("users")
+                .document(uid)
+                .collection("notifications")
+                .document(notif.id)
+            batch.updateData(["isRead": true], forDocument: ref)
+        }
+        batch.commit()
+    }
 }
